@@ -42,6 +42,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         while (opModeIsActive()) {
             tgtPowerLB = gamepad1.left_stick_y;
