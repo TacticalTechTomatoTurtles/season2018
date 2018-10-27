@@ -12,6 +12,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
     private DcMotor leftMotorF;
     private DcMotor rightMotorB;
     private DcMotor rightMotorF;
+    private DcMotor armMotorF;
     private Servo rightServoF;
 
 
@@ -21,6 +22,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         leftMotorF = hardwareMap.get(DcMotor.class, "motor1");
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
+        armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rightServoF = hardwareMap.get(Servo.class,"steve");
 
         telemetry.addData("Status", "Initialized");
@@ -32,6 +34,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerRB = 0;
         double tgtPowerLF = 0;
         double tgtPowerRF = 0;
+        double tgtPowerArm = 0;
         double tgtPowerSteve = 0;
        // double tgtPowerNegSteve = 0;
 
@@ -45,12 +48,14 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerRF = -gamepad1.right_stick_y;
             tgtPowerLF = gamepad1.left_stick_y;
             tgtPowerRB = -gamepad1.right_stick_y;
-            tgtPowerSteve = this.gamepad1.left_trigger;
+            tgtPowerArm = -gamepad2.right_stick_y;
+            tgtPowerSteve = this.gamepad2.left_trigger;
 
             leftMotorF.setPower(tgtPowerLF);
             leftMotorB.setPower(tgtPowerLB);
             rightMotorF.setPower(tgtPowerRF);
             rightMotorB.setPower(tgtPowerRB);
+            armMotorF.setPower(tgtPowerArm);
             rightServoF.setPosition(.75);
 
             if(gamepad1.y){
@@ -64,6 +69,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Target Power Right Back", tgtPowerRB);
             telemetry.addData("Target Power Left Front", tgtPowerLF);
             telemetry.addData("Target Power Right Front", tgtPowerRF);
+            telemetry.addData("Target Power Front Arm", tgtPowerArm);
             telemetry.addData("Servo Right Front", tgtPowerSteve);
            // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
@@ -71,6 +77,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Motor Power Left Front", leftMotorF.getPower());
             telemetry.addData("Motor Power Right Back", rightMotorB.getPower());
             telemetry.addData("Motor Power Right Front", rightMotorF.getPower());
+            telemetry.addData("Motor Power Arm Front", armMotorF.getPower());
             telemetry.addData("Servo Position", rightServoF.getPosition());
             telemetry.addData("Target Power", tgtPowerSteve);
             telemetry.addData("Status", "Running");
@@ -80,6 +87,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         leftMotorB.setPower(0);
         rightMotorF.setPower(0);
         rightMotorB.setPower(0);
+        armMotorF.setPower(0);
         rightServoF.setPosition(0);
     }
 
