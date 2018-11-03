@@ -58,30 +58,35 @@ public class BlueBase extends LinearOpMode {
             } else if (state == TURNING_TO_BASE) {
                 if (turning()) {
                     state = DRIVE_TO_BASE;
-                }else if (state == DRIVE_TO_BASE) {
-                    boolean found = findWall();
+                }
+
+            }else if (state == DRIVE_TO_BASE) {
+                boolean found = findWall();
+                if (found) {
+                    state = BACK_UP_FROM_BASE;
                     myTimer.setCompareTime(1000);
                     myTimer.start();
-                    if (found) {
-                        state = BACK_UP_FROM_BASE;
-                    } else if (state == BACK_UP_FROM_BASE) {
+                }
+            }else if (state == BACK_UP_FROM_BASE) {
                         if (backUp()) {
                             state = DROP_ICON;
                             myTimer.setCompareTime(1000);
                             myTimer.start();
-                        } else if (state == DROP_ICON) {
+                        }
+            } else if (state == DROP_ICON) {
                             if (iconDrop()) {
                                 state = BACK_UP_FULLY;
-                            } else if (state == BACK_UP_FULLY) {
+                            }
+            } else if (state == BACK_UP_FULLY) {
                                 if (backUpFully()) {
                                     myTimer.setCompareTime(15000);
                                     myTimer.start();
                                 }
-                            }
+
                         }
-                    }
-                }
-            } //else if (state === ) {
+
+
+            //else if (state === ) {
 
             //}
             // turn right 90 degrees
