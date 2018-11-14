@@ -160,6 +160,7 @@ public class BlueBase extends LinearOpMode {
                 rightMotorF.setPower(0);
                 return true;
             }else {
+
                 leftMotorB.setPower(-1);
                 leftMotorF.setPower(-1);
                 rightMotorB.setPower(-1);
@@ -170,4 +171,9 @@ public class BlueBase extends LinearOpMode {
 
 
     }
+
+    // if {(myTimer.setcomparetime == 3000){
+// }else{
+//run motors
+//}
 

@@ -8,16 +8,22 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
+
+    // represents the 4 wheel motorss
     private DcMotor leftMotorB;
     private DcMotor leftMotorF;
     private DcMotor rightMotorB;
     private DcMotor rightMotorF;
+
+    // This one represents the main arm motor
     private DcMotor armMotorF;
     private Servo rightServoF;
 
 
     @Override
     public void runOpMode() {
+
+        // this is where were kinda connecting the dots between the variable and the real life motors
         leftMotorB = hardwareMap.get(DcMotor.class, "motor0");
         leftMotorF = hardwareMap.get(DcMotor.class, "motor1");
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
@@ -25,11 +31,14 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rightServoF = hardwareMap.get(Servo.class,"steve");
 
+        // Send a messgae to the drivers phone that the variables are all set.
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        // program waits until the start button is pressed on the phone.
         waitForStart();
 
+        //these variables hold the power values from the joystick
         double tgtPowerLB = 0;
         double tgtPowerRB = 0;
         double tgtPowerLF = 0;
@@ -38,6 +47,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerSteve = 0;
        // double tgtPowerNegSteve = 0;
 
+        //stops movement of robot quickly.
         leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -45,7 +55,10 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
+        //This is the main loop that runs teleop and runs multiple times a second.
+        //This keeps looping until the stop button is pressed.
         while (opModeIsActive()) {
+            // you are asking the game pad what your current position is of a certain joystick or botton is
             tgtPowerLB = gamepad1.left_stick_y;
             tgtPowerRF = -gamepad1.right_stick_y;
             tgtPowerLF = gamepad1.left_stick_y;
@@ -53,11 +66,13 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerArm = -gamepad2.right_stick_y;
             tgtPowerSteve = this.gamepad2.left_trigger;
 
+
+            // you are telling the robot to use those variables to set that power to the motors
             leftMotorF.setPower(tgtPowerLF);
             leftMotorB.setPower(tgtPowerLB);
             rightMotorF.setPower(tgtPowerRF);
             rightMotorB.setPower(tgtPowerRB);
-            armMotorF.setPower(tgtPowerArm);
+            armMotorF.setPower(tgtPowerArm/2.5);
             rightServoF.setPosition(.75);
 
             if(gamepad1.y){
@@ -67,6 +82,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
                 changePower(-.10);
             }
 
+            // its sending the power of the motors to the phone
             telemetry.addData("Target Power Left Back", tgtPowerLB);
             telemetry.addData("Target Power Right Back", tgtPowerRB);
             telemetry.addData("Target Power Left Front", tgtPowerLF);
@@ -75,6 +91,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Servo Right Front", tgtPowerSteve);
            // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
+            // sending motors to the phone
             telemetry.addData("Motor Power Left Back", leftMotorB.getPower());
             telemetry.addData("Motor Power Left Front", leftMotorF.getPower());
             telemetry.addData("Motor Power Right Back", rightMotorB.getPower());
