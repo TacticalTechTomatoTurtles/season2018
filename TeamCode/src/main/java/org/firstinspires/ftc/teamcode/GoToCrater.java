@@ -30,21 +30,43 @@ public class GoToCrater extends LinearOpMode {
 
         waitForStart();
 
-
+        myTimer.setCompareTime(3000);
+        myTimer.start();
         while (opModeIsActive()) {
 
-            myTimer.setCompareTime(3000);
-            myTimer.start();
-            if {
-                (myTimer.compareTime == 3000) {
-                }else{
-                    leftMotorB.setPower(1);
-                    leftMotorF.setPower(1);
-                    rightMotorB.setPower(-1);
-                    rightMotorF.setPower(-1);
-                }
-            }
 
+            if (myTimer.timeChecker()) {
+                leftMotorB.setPower(0);
+                leftMotorF.setPower(0);
+                rightMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                break;
+            } else {
+                leftMotorB.setPower(1);
+                leftMotorF.setPower(1);
+                rightMotorB.setPower(-1);
+                rightMotorF.setPower(-1);
+            }
+        }
+        myTimer.setCompareTime(2500);
+        myTimer.start();
+        while ((opModeIsActive())) {
+            if (myTimer.timeChecker()) {
+                leftMotorB.setPower(0);
+                leftMotorF.setPower(0);
+                rightMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                break;
+            } else {
+                leftMotorB.setPower(1);
+                leftMotorF.setPower(1);
+                rightMotorB.setPower(1);
+                rightMotorF.setPower(1);
+
+            }
         }
     }
 }
+
+
+
