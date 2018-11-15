@@ -31,6 +31,7 @@ public class BlueBase extends LinearOpMode {
         leftMotorB = hardwareMap.get(DcMotor.class, "motor0");
         leftMotorF = hardwareMap.get(DcMotor.class, "motor1");
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
+        //flip a motor and see what's up
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rightServoF = hardwareMap.get(Servo.class, "steve");
@@ -43,6 +44,7 @@ public class BlueBase extends LinearOpMode {
         double tgtPowerLF = 0;
         double tgtPowerRF = 0;
         double tgtPowerArm = 0;
+
 
         int state = LOOKING_FOR_WALL;
 

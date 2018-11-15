@@ -57,6 +57,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
 
         //This is the main loop that runs teleop and runs multiple times a second.
         //This keeps looping until the stop button is pressed.
+        rightServoF.setPosition(0);
         while (opModeIsActive()) {
             // you are asking the game pad what your current position is of a certain joystick or botton is
             tgtPowerLB = gamepad1.left_stick_y;
@@ -68,19 +69,19 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
 
 
             // you are telling the robot to use those variables to set that power to the motors
-            leftMotorF.setPower(tgtPowerLF);
-            leftMotorB.setPower(tgtPowerLB);
-            rightMotorF.setPower(tgtPowerRF);
-            rightMotorB.setPower(tgtPowerRB);
+            leftMotorF.setPower(tgtPowerLF/2);
+            leftMotorB.setPower(tgtPowerLB/2);
+            rightMotorF.setPower(tgtPowerRF/2);
+            rightMotorB.setPower(tgtPowerRB/2);
             armMotorF.setPower(tgtPowerArm/2.5);
-            rightServoF.setPosition(.75);
+            rightServoF.setPosition(tgtPowerSteve);
 
-            if(gamepad1.y){
-                changePower(.10);
-            }
-            if(gamepad1.a) {
-                changePower(-.10);
-            }
+//            if(gamepad1.y){
+//                changePower(.10);
+//          }
+  //          if(gamepad1.a) {
+  //          changePower(-.10);
+//            }
 
             // its sending the power of the motors to the phone
             telemetry.addData("Target Power Left Back", tgtPowerLB);
