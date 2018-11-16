@@ -44,8 +44,8 @@ public class GoToCrater extends LinearOpMode {
             } else {
                 leftMotorB.setPower(1);
                 leftMotorF.setPower(1);
-                rightMotorB.setPower(-1);
-                rightMotorF.setPower(-1);
+                rightMotorB.setPower(1);
+                rightMotorF.setPower(1);
             }
         }
         myTimer.setCompareTime(2500);
@@ -60,8 +60,8 @@ public class GoToCrater extends LinearOpMode {
             } else {
                 leftMotorB.setPower(1);
                 leftMotorF.setPower(1);
-                rightMotorB.setPower(1);
-                rightMotorF.setPower(1);
+                rightMotorB.setPower(-1);
+                rightMotorF.setPower(-1);
 
             }
         }

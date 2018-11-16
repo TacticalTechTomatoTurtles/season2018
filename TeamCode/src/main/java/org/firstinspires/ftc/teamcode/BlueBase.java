@@ -19,11 +19,12 @@ public class BlueBase extends LinearOpMode {
     private TouchSensor touchSensor;
 
     private int LOOKING_FOR_WALL = 0;
-    private int TURNING_TO_BASE = 1;
-    private int DRIVE_TO_BASE = 2;
-    private int BACK_UP_FROM_BASE = 3;
-    private int DROP_ICON = 4;
-    private int BACK_UP_FULLY = 5;
+    private int BACK_UP_WALL = 1;
+    private int TURNING_TO_BASE = 2;
+    private int DRIVE_TO_BASE = 3;
+    private int BACK_UP_FROM_BASE = 4;
+    private int DROP_ICON = 5;
+    private int BACK_UP_FULLY = 6;
 
 
     @Override
@@ -53,40 +54,46 @@ public class BlueBase extends LinearOpMode {
             if (state == LOOKING_FOR_WALL) {
                 boolean found = findWall();
                 if (found) {
-                    state = TURNING_TO_BASE;
-                    myTimer.setCompareTime(2000);
+                    state = BACK_UP_WALL;
+                    myTimer.setCompareTime(192);
                     myTimer.start();
+                } else if (state == BACK_UP_WALL) {
+                    if (backUpWall()) {
+                        state = TURNING_TO_BASE;
+                        myTimer.setCompareTime(700);
+                        myTimer.start();
+                    }
+
                 }
             } else if (state == TURNING_TO_BASE) {
-                if (turning()) {
+                if (turningRight()) {
                     state = DRIVE_TO_BASE;
                 }
 
-            }else if (state == DRIVE_TO_BASE) {
+            } else if (state == DRIVE_TO_BASE) {
                 boolean found = findWall();
                 if (found) {
                     state = BACK_UP_FROM_BASE;
-                    myTimer.setCompareTime(1000);
+                    myTimer.setCompareTime(845);
                     myTimer.start();
                 }
-            }else if (state == BACK_UP_FROM_BASE) {
-                        if (backUp()) {
-                            state = DROP_ICON;
-                            myTimer.setCompareTime(1000);
-                            myTimer.start();
-                        }
+            } else if (state == BACK_UP_FROM_BASE) {
+                if (backUp()) {
+                    state = DROP_ICON;
+                    myTimer.setCompareTime(900);
+                    myTimer.start();
+                }
             } else if (state == DROP_ICON) {
-                            if (iconDrop()) {
-                                state = BACK_UP_FULLY;
-                            }
+                if (iconDrop()) {
+                    state = BACK_UP_FULLY;
+                }
             } else if (state == BACK_UP_FULLY) {
-                                if (backUpFully()) {
-                                    myTimer.setCompareTime(15000);
-                                    myTimer.start();
-                                }
+                if (backUpFully()) {
+                    myTimer.setCompareTime(3840);
+                    myTimer.start();
+                }
 
-                        }
-
+            }
 
             //else if (state === ) {
 
@@ -120,17 +127,34 @@ public class BlueBase extends LinearOpMode {
         }
     }
 
-    private boolean turning() {
+    private boolean backUpWall() {
         if (myTimer.timeChecker()) {
+            leftMotorB.setPower(0);
+            leftMotorF.setPower(0);
+            rightMotorB.setPower(0);
+            rightMotorF.setPower(0);
             return true;
         } else {
-            leftMotorB.setPower(1);
-            leftMotorF.setPower(1);
+
+            leftMotorB.setPower(-1);
+            leftMotorF.setPower(-1);
             rightMotorB.setPower(-1);
             rightMotorF.setPower(-1);
             return false;
-        }
-    }
+        }}
+            private boolean turningRight () {
+                if (myTimer.timeChecker()) {
+                    return true;
+                } else {
+                    leftMotorB.setPower(1);
+                    leftMotorF.setPower(1);
+                    rightMotorB.setPower(-1);
+                    rightMotorF.setPower(-1);
+                    return false;
+                }
+            }
+
+
     private boolean backUp() {
         if (myTimer.timeChecker()) {
             leftMotorB.setPower(0);
@@ -138,7 +162,7 @@ public class BlueBase extends LinearOpMode {
             rightMotorB.setPower(0);
             rightMotorF.setPower(0);
             return true;
-        }else {
+        } else {
             leftMotorB.setPower(-1);
             leftMotorF.setPower(-1);
             rightMotorB.setPower(-1);
@@ -146,33 +170,35 @@ public class BlueBase extends LinearOpMode {
             return false;
         }
     }
+
     private boolean iconDrop() {
         if (myTimer.timeChecker()) {
             armMotorF.setPower(1);
             return true;
-        }else {
+        } else {
             return false;
         }
     }
-        private boolean backUpFully() {
-            if (myTimer.timeChecker()) {
-                leftMotorB.setPower(0);
-                leftMotorF.setPower(0);
-                rightMotorB.setPower(0);
-                rightMotorF.setPower(0);
-                return true;
-            }else {
 
-                leftMotorB.setPower(-1);
-                leftMotorF.setPower(-1);
-                rightMotorB.setPower(-1);
-                rightMotorF.setPower(-1);
-                return false;
-            }
+    private boolean backUpFully() {
+        if (myTimer.timeChecker()) {
+            leftMotorB.setPower(0);
+            leftMotorF.setPower(0);
+            rightMotorB.setPower(0);
+            rightMotorF.setPower(0);
+            return true;
+        } else {
+
+            leftMotorB.setPower(-1);
+            leftMotorF.setPower(-1);
+            rightMotorB.setPower(-1);
+            rightMotorF.setPower(-1);
+            return false;
         }
-
-
     }
+}
+
+
 
     // if {(myTimer.setcomparetime == 3000){
 // }else{
