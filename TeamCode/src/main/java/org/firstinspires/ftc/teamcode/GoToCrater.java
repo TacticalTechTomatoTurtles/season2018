@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Autonomous
 public class GoToCrater extends LinearOpMode {
-    private Timer myTimer;
     private DcMotor leftMotorB;
     private DcMotor leftMotorF;
     private DcMotor rightMotorB;
@@ -30,41 +29,27 @@ public class GoToCrater extends LinearOpMode {
 
         waitForStart();
 
-        myTimer.setCompareTime(3000);
+        Timer myTimer = new Timer();
+        long mili = inchesToTime(40.0);
+        myTimer.setCompareTime(mili);
         myTimer.start();
         while (opModeIsActive()) {
-
-
             if (myTimer.timeChecker()) {
-                leftMotorB.setPower(0);
-                leftMotorF.setPower(0);
-                rightMotorB.setPower(0);
-                rightMotorF.setPower(0);
+                leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+                rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 break;
             } else {
-                leftMotorB.setPower(1);
-                leftMotorF.setPower(1);
-                rightMotorB.setPower(1);
-                rightMotorF.setPower(1);
+                leftMotorB.setPower(.5);
+                leftMotorF.setPower(.5);
+                rightMotorB.setPower(-.5);
+                rightMotorF.setPower(-.5);
             }
         }
-        myTimer.setCompareTime(2500);
-        myTimer.start();
-        while ((opModeIsActive())) {
-            if (myTimer.timeChecker()) {
-                leftMotorB.setPower(0);
-                leftMotorF.setPower(0);
-                rightMotorB.setPower(0);
-                rightMotorF.setPower(0);
-                break;
-            } else {
-                leftMotorB.setPower(1);
-                leftMotorF.setPower(1);
-                rightMotorB.setPower(-1);
-                rightMotorF.setPower(-1);
-
-            }
-        }
+    }
+    public long inchesToTime(double inches) {
+       return (long) (0.0384 * inches * 1000.0);
     }
 }
 
