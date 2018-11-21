@@ -30,7 +30,7 @@ public class GoToCrater extends LinearOpMode {
         waitForStart();
 
         Timer myTimer = new Timer();
-        long mili = inchesToTime(40.0);
+        long mili = inchesToTime(140);
         myTimer.setCompareTime(mili);
         myTimer.start();
         while (opModeIsActive()) {
@@ -41,11 +41,12 @@ public class GoToCrater extends LinearOpMode {
                 rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
                 break;
             } else {
-                leftMotorB.setPower(.5);
-                leftMotorF.setPower(.5);
-                rightMotorB.setPower(-.5);
-                rightMotorF.setPower(-.5);
+                leftMotorB.setPower(.25);
+                leftMotorF.setPower(.25);
+                rightMotorB.setPower(-.25);
+                rightMotorF.setPower(-.25);
             }
+            telemetry.addData("Time", mili);
         }
     }
     public long inchesToTime(double inches) {
