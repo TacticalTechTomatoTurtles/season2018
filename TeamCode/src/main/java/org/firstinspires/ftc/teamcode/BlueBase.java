@@ -96,6 +96,7 @@ public class BlueBase extends LinearOpMode {
                 }
 
             }
+            telemetry.addData("Is Pressed", Tanner.isPressed());
 
             //else if (state === ) {
 
@@ -200,6 +201,7 @@ public class BlueBase extends LinearOpMode {
     }
     public long inchesToTime(double inches) {
         return (long) (0.0384 * inches * 1000.0);
+
     }
 }
 
