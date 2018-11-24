@@ -31,7 +31,7 @@ public class MotorFullTeleOP extends LinearOpMode {
             armMotorF = hardwareMap.get(DcMotor.class, "motor4");
             rightServoF = hardwareMap.get(Servo.class,"steve");
 
-            // Send a messgae to the drivers phone that the variables are all set.
+            // Send a message to the drivers phone that the variables are all set.
             telemetry.addData("Status", "Initialized");
             telemetry.update();
 
@@ -73,7 +73,7 @@ public class MotorFullTeleOP extends LinearOpMode {
                 leftMotorB.setPower(tgtPowerLB/2);
                 rightMotorF.setPower(tgtPowerRF/2);
                 rightMotorB.setPower(tgtPowerRB/2);
-                armMotorF.setPower(tgtPowerArm);
+                armMotorF.setPower(tgtPowerArm*100);
                 rightServoF.setPosition(tgtPowerSteve);
 
 //            if(gamepad1.y){
