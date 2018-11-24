@@ -16,7 +16,7 @@ public class BlueBase extends LinearOpMode {
     private DcMotor rightMotorF;
     private DcMotor armMotorF;
     private Servo rightServoF;
-    private TouchSensor touchSensor;
+    private TouchSensor Tanner;
 
     private int LOOKING_FOR_WALL = 0;
     private int BACK_UP_WALL = 1;
@@ -36,7 +36,7 @@ public class BlueBase extends LinearOpMode {
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rightServoF = hardwareMap.get(Servo.class, "steve");
-        touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+        Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
 
 
         waitForStart();
@@ -117,7 +117,7 @@ public class BlueBase extends LinearOpMode {
 
     private boolean findWall() {
         // is sensor pressed
-        if (touchSensor.isPressed()) {
+        if (Tanner.isPressed()) {
             return true;
         } else {
             // if no go forward at speed x and return false
