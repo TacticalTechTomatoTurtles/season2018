@@ -14,6 +14,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
     private DcMotor leftMotorF;
     private DcMotor rightMotorB;
     private DcMotor rightMotorF;
+    private DcMotor rackMotorF;
 
     // This one represents the main arm motor
     private DcMotor armMotorF;
@@ -29,6 +30,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
+        rackMotorF = hardwareMap.get(DcMotor.class, "motor5");
         rightServoF = hardwareMap.get(Servo.class,"steve");
 
         // Send a messgae to the drivers phone that the variables are all set.
@@ -44,6 +46,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerLF = 0;
         double tgtPowerRF = 0;
         double tgtPowerArm = 0;
+        double tgtPowerRack = 0;
         double tgtPowerSteve = 0;
        // double tgtPowerNegSteve = 0;
 
@@ -53,6 +56,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rackMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
         //This is the main loop that runs teleop and runs multiple times a second.
@@ -65,6 +69,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerLF = gamepad1.left_stick_y;
             tgtPowerRB = -gamepad1.right_stick_y;
             tgtPowerArm = -gamepad2.right_stick_y;
+            tgtPowerRack = -gamepad2.left_stick_y;
             tgtPowerSteve = this.gamepad2.left_trigger;
 
 
@@ -74,6 +79,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             rightMotorF.setPower(tgtPowerRF/2);
             rightMotorB.setPower(tgtPowerRB/2);
             armMotorF.setPower(tgtPowerArm/2.5);
+            rackMotorF.setPower(tgtPowerArm);
             rightServoF.setPosition(tgtPowerSteve);
 
 //            if(gamepad1.y){
@@ -89,8 +95,9 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Target Power Left Front", tgtPowerLF);
             telemetry.addData("Target Power Right Front", tgtPowerRF);
             telemetry.addData("Target Power Front Arm", tgtPowerArm);
+            telemetry.addData("Target Power Rack Front", tgtPowerRack);
             telemetry.addData("Servo Right Front", tgtPowerSteve);
-           // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
+            // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
             // sending motors to the phone
             telemetry.addData("Motor Power Left Back", leftMotorB.getPower());
@@ -98,6 +105,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Motor Power Right Back", rightMotorB.getPower());
             telemetry.addData("Motor Power Right Front", rightMotorF.getPower());
             telemetry.addData("Motor Power Arm Front", armMotorF.getPower());
+            telemetry.addData("Motor Power Rack Front", rackMotorF.getPower());
             telemetry.addData("Servo Position", rightServoF.getPosition());
             telemetry.addData("Target Power", tgtPowerSteve);
             telemetry.addData("Status", "Running");
@@ -108,6 +116,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rightMotorF.setPower(0);
         rightMotorB.setPower(0);
         armMotorF.setPower(0);
+        rackMotorF.setPower(0);
         rightServoF.setPosition(0);
     }
 
