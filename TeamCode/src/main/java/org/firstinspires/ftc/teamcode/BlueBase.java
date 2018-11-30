@@ -121,7 +121,7 @@ public class BlueBase extends LinearOpMode {
 
     private boolean findWall() {
         // is sensor pressed
-        if (Tanner.isPressed()) {
+        if (Tanner.isPressed() == true) {
             return true;
         } else {
             // if no go forward at speed x and return false

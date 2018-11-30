@@ -1,32 +1,30 @@
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DigitalChannel;
+import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @TeleOp(name = "Sensor: Digital touch", group = "Sensor")
-@Disabled
 public class TestTouch extends LinearOpMode {
 
-    DigitalChannel digitalTouch;
+    TouchSensor digitalTouch;
 
     @Override
     public void runOpMode() {
 
 
-        digitalTouch = hardwareMap.get(DigitalChannel.class, "sensor_digital");
+        digitalTouch = hardwareMap.get(TouchSensor.class, "touchSensor");
 
-        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        digitalTouch.isPressed();
 
         waitForStart();
 
         while (opModeIsActive()) {
 
-            if (digitalTouch.getState() == true) {
-                telemetry.addData("Digital Touch", "Is Not Pressed");
+            if (digitalTouch.isPressed() == true) {
+                telemetry.addData("Touch Sensor:", " Is Pressed");
             } else {
-                telemetry.addData("Digital Touch", "Is Pressed");
+                telemetry.addData("Touch Sensor:", " Is Not Pressed");
             }
 
             telemetry.update();
