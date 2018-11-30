@@ -15,6 +15,7 @@ public class BlueBase extends LinearOpMode {
     private DcMotor rightMotorB;
     private DcMotor rightMotorF;
     private DcMotor armMotorF;
+    private DcMotor rackMotorF;
     private Servo rightServoF;
     private TouchSensor Tanner;
 
@@ -35,6 +36,7 @@ public class BlueBase extends LinearOpMode {
         //flip a motor and see what's up
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
+        rackMotorF = hardwareMap.get(DcMotor.class,"motor5");
         rightServoF = hardwareMap.get(Servo.class, "steve");
         Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
 
@@ -45,6 +47,7 @@ public class BlueBase extends LinearOpMode {
         double tgtPowerLF = 0;
         double tgtPowerRF = 0;
         double tgtPowerArm = 0;
+        double tgtPowerRack = 0;
         myTimer = new Timer();
 
 
