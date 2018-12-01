@@ -29,7 +29,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
-        rackMotorF = hardwareMap.get(DcMotor.class, "motor5");
+        rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class,"steve");
 
         // Send a message to the drivers phone that the variables are all set.
@@ -62,7 +62,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         //This keeps looping until the stop button is pressed.
         rightServoF.setPosition(0);
         while (opModeIsActive()) {
-            // you are asking the game pad what your current position is of a certain joystick or botton is
+            // you are asking the game pad what your current position is of a certain joystick or button is
             tgtPowerLB = gamepad1.left_stick_y;
             tgtPowerRF = -gamepad1.right_stick_y;
             tgtPowerLF = gamepad1.left_stick_y;
@@ -78,6 +78,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             rightMotorF.setPower(tgtPowerRF/2);
             rightMotorB.setPower(tgtPowerRB/2);
             armMotorF.setPower(tgtPowerArm/2.5);
+            // TODO: fix issue on next line
             rackMotorF.setPower(tgtPowerArm/2.5);
             rightServoF.setPosition(tgtPowerSteve);
 
