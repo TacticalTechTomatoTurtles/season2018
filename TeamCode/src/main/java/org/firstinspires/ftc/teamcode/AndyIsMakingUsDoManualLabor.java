@@ -8,16 +8,16 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
 
-    // represents the 4 wheel motorss
+    // represents the 4 wheel motors
     private DcMotor leftMotorB;
     private DcMotor leftMotorF;
     private DcMotor rightMotorB;
     private DcMotor rightMotorF;
-    private DcMotor rackMotorF;
 
     // This one represents the main arm motor
     private DcMotor armMotorF;
     private Servo rightServoF;
+    private DcMotor rackMotorF;
 
 
     @Override
@@ -32,7 +32,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rackMotorF = hardwareMap.get(DcMotor.class, "motor5");
         rightServoF = hardwareMap.get(Servo.class,"steve");
 
-        // Send a messgae to the drivers phone that the variables are all set.
+        // Send a message to the drivers phone that the variables are all set.
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -58,7 +58,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rackMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-        //This is the main loop that runs teleop and runs multiple times a second.
+        //This is the main loop that runs tele-op and runs multiple times a second.
         //This keeps looping until the stop button is pressed.
         rightServoF.setPosition(0);
         while (opModeIsActive()) {

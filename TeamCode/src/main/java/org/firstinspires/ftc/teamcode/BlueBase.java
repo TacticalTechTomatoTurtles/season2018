@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 @Autonomous
 public class BlueBase extends LinearOpMode {
-
     private Timer myTimer;
     private DcMotor leftMotorB;
     private DcMotor leftMotorF;
@@ -36,7 +35,7 @@ public class BlueBase extends LinearOpMode {
         //flip a motor and see what's up
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
-        rackMotorF = hardwareMap.get(DcMotor.class,"motor5");
+        rackMotorF = hardwareMap.get(DcMotor.class, "motor5");
         rightServoF = hardwareMap.get(Servo.class, "steve");
         Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
 
@@ -61,14 +60,14 @@ public class BlueBase extends LinearOpMode {
                     state = BACK_UP_WALL;
                     myTimer.setCompareTime(inchesToTime(5));
                     myTimer.start();
-                } else if (state == BACK_UP_WALL) {
-                    if (backUpWall()) {
-                        state = TURNING_TO_BASE;
-                        myTimer.setCompareTime(700);
-                        myTimer.start();
-                    }
-
                 }
+            } else if (state == BACK_UP_WALL) {
+                if (backUpWall()) {
+                    state = TURNING_TO_BASE;
+                    myTimer.setCompareTime(700);
+                    myTimer.start();
+                }
+
             } else if (state == TURNING_TO_BASE) {
                 if (turningRight()) {
                     state = DRIVE_TO_BASE;
@@ -99,11 +98,12 @@ public class BlueBase extends LinearOpMode {
                 }
 
             }
+
             telemetry.addData("Is Pressed", Tanner.isPressed());
 
             //else if (state === ) {
 
-            //}
+            //   {
             // turn right 90 degrees
 
             // go forward y inches
@@ -111,6 +111,9 @@ public class BlueBase extends LinearOpMode {
             // drop the figure
 
             //back into the crater
+
+            //     }
+            //}
         }
 
         leftMotorF.setPower(0);
@@ -119,9 +122,13 @@ public class BlueBase extends LinearOpMode {
         rightMotorB.setPower(0);
     }
 
-    private boolean findWall() {
+    private boolean findWall () {
         // is sensor pressed
         if (Tanner.isPressed() == true) {
+            leftMotorB.setPower(0);
+            leftMotorF.setPower(0);
+            rightMotorB.setPower(0);
+            rightMotorF.setPower(0);
             return true;
         } else {
             // if no go forward at speed x and return false
@@ -133,7 +140,7 @@ public class BlueBase extends LinearOpMode {
         }
     }
 
-    private boolean backUpWall() {
+    private boolean backUpWall () {
         if (myTimer.timeChecker()) {
             leftMotorB.setPower(0);
             leftMotorF.setPower(0);
@@ -147,21 +154,22 @@ public class BlueBase extends LinearOpMode {
             rightMotorB.setPower(1);
             rightMotorF.setPower(1);
             return false;
-        }}
-            private boolean turningRight () {
-                if (myTimer.timeChecker()) {
-                    return true;
-                } else {
-                    leftMotorB.setPower(1);
-                    leftMotorF.setPower(1);
-                    rightMotorB.setPower(1);
-                    rightMotorF.setPower(1);
-                    return false;
-                }
-            }
+        }
+    }
+    private boolean turningRight () {
+        if (myTimer.timeChecker()) {
+            return true;
+        } else {
+            leftMotorB.setPower(1);
+            leftMotorF.setPower(1);
+            rightMotorB.setPower(1);
+            rightMotorF.setPower(1);
+            return false;
+        }
+    }
 
 
-    private boolean backUp() {
+    private boolean backUp () {
         if (myTimer.timeChecker()) {
             leftMotorB.setPower(0);
             leftMotorF.setPower(0);
@@ -177,7 +185,7 @@ public class BlueBase extends LinearOpMode {
         }
     }
 
-    private boolean iconDrop() {
+    private boolean iconDrop () {
         if (myTimer.timeChecker()) {
             armMotorF.setPower(.25);
             return true;
@@ -186,7 +194,7 @@ public class BlueBase extends LinearOpMode {
         }
     }
 
-    private boolean backUpFully() {
+    private boolean backUpFully () {
         if (myTimer.timeChecker()) {
             leftMotorB.setPower(0);
             leftMotorF.setPower(0);
@@ -202,10 +210,9 @@ public class BlueBase extends LinearOpMode {
             return false;
         }
     }
-    public long inchesToTime(double inches) {
+    public long inchesToTime ( double inches){
         return (long) (0.0384 * inches * 1000.0);
 
     }
 }
-
 

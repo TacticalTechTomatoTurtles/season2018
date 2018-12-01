@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-@TeleOp(name = "Sensor: Digital touch", group = "Sensor")
+@TeleOp(name = "Sensor Test", group = "Sensor")
 public class TestTouch extends LinearOpMode {
 
     TouchSensor digitalTouch;
