@@ -3,66 +3,94 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.GyroSensor;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp
 public class ArmTest extends LinearOpMode {
-    // This one represents the main arm motor
-    private DcMotor armMotorF;
-    private DcMotor rackMotorF;
-
+    private DcMotor leftMotorB;
+    private DcMotor leftMotorF;
+    private DcMotor rightMotorB;
+    private DcMotor rightMotorF;
 
     @Override
     public void runOpMode() {
 
         // this is where were kinda connecting the dots between the variable and the real life motors
-        armMotorF = hardwareMap.get(DcMotor.class, "motor4");
-        rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
+        leftMotorB = hardwareMap.get(DcMotor.class, "motor0");
+        leftMotorF = hardwareMap.get(DcMotor.class, "motor1");
+        rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
+        rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
+
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+        parameters.mode                = BNO055IMU.SensorMode.IMU;
+        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled      = false;
+        BNO055IMU imu =  hardwareMap.get(BNO055IMU.class, "imu");
+
+
+        //stops movement of robot quickly.
+        leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        telemetry.addData("Gyro Mode:", "calibrating...");
+        telemetry.update();
+
+        imu.initialize(parameters);
+        // let the robot sit still while calibrating the gyro
+        while(!imu.isGyroCalibrated() && opModeIsActive()) {
+            // do noting... just wait
+            idle();
+        }
 
         // Send a message to the drivers phone that the variables are all set.
+        telemetry.addData("Gyro Status", imu.getCalibrationStatus().toString());
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // program waits until the start button is pressed on the phone.
         waitForStart();
 
-        //these variables hold the power values from the joystick
-        double tgtPowerArm = 0;
-        double tgtPowerRack = 0;
+        // Rotate 180 degrees
+        // First start the motors turning LEFT
+        //leftMotorB.setPower(0.2); // - forward
+        //leftMotorF.setPower(0.2); // - forward
+        //rightMotorB.setPower(0.2); // + forward
+        //rightMotorF.setPower(0.2); // + forward
 
-        //stops movement of robot quickly.
-        armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rackMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // First start the motors turning RIGHT
+        leftMotorB.setPower(-0.2); // - forward
+        leftMotorF.setPower(-0.2); // - forward
+        rightMotorB.setPower(-0.2); // + forward
+        rightMotorF.setPower(-0.2); // + forward
 
-        //This is the main loop that runs tele-op and runs multiple times a second.
-        //This keeps looping until the stop button is pressed.
-        Timer t = new Timer();
-        t.setCompareTime(1000);
-        t.start();
-        while (opModeIsActive()) {
-            if(t.timeChecker()) {
-                break;
-            }
-            // you are asking the game pad what your current position is of a certain joystick or button is
-            tgtPowerArm = -0.0;
-            tgtPowerRack = -1.0;
 
-            // you are telling the robot to use those variables to set that power to the motors
-            armMotorF.setPower(tgtPowerArm/2.5);
-            rackMotorF.setPower(tgtPowerRack/2.5);
+        // Note: since this loop will run until the turn is complete we need to check if the
+        //       driver pressed stop while we are turning - the opModeIsActive() check.
+        Gyro gyro = new Gyro(imu);
+        gyro.resetWithDirection(-1); // left = -1, right = +1
+        while(gyro.getAngle() > -200 && opModeIsActive()) { // left is positive deg, right is neg deg
+            // do nothing to the motors... let them keep running
 
-            // its sending the power of the motors to the phone
-            telemetry.addData("Target Power Front Arm", tgtPowerArm);
-            telemetry.addData("Target Power Rack Front", tgtPowerRack);
-
-            // sending motors to the phone
-            telemetry.addData("Motor Power Arm Front", armMotorF.getPower());
-            telemetry.addData("Motor Power Rack Front", rackMotorF.getPower());
-            telemetry.addData("Status", "Running");
+            // Let the user see the gyro degree reading on the phone
+            telemetry.addData("GyroZ:", gyro.getAngle());
             telemetry.update();
         }
 
-        armMotorF.setPower(0);
-        rackMotorF.setPower(0);
+        // The sensor read 180 degrees. Stop the motors
+        leftMotorB.setPower(0);
+        leftMotorF.setPower(0);
+        rightMotorB.setPower(0);
+        rightMotorF.setPower(0);
+
     }
 }

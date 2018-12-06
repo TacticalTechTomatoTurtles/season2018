@@ -17,6 +17,7 @@ public class LanderBlueBase extends LinearOpMode {
     private DcMotor rackMotorF;
     private Servo rightServoF;
     private TouchSensor Tanner;
+
     private int LOOKING_FOR_WALL = 1;
     private int BACK_UP_WALL = 2;
     private int TURNING_TO_BASE = 3;
@@ -36,7 +37,7 @@ public class LanderBlueBase extends LinearOpMode {
         //flip a motor and see what's up
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
-        rackMotorF = hardwareMap.get(DcMotor.class, "motor5");
+        rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class, "steve");
         Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
 
@@ -50,8 +51,10 @@ public class LanderBlueBase extends LinearOpMode {
         double tgtPowerRack = 0;
         myTimer = new Timer();
 
+        myTimer.setCompareTime(inchesToTime(4));
 
-        int state = LOOKING_FOR_WALL;
+
+        int state = DETACH_LANDER;
 
         while (opModeIsActive()) {
         if (state == DETACH_LANDER) {

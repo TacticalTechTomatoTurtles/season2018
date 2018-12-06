@@ -8,8 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 @TeleOp
 public class MotorFullTeleOP extends LinearOpMode {
 
-
-        // represents the 4 wheel motorss
+        // represents the 4 wheel motors
         private DcMotor leftMotorB;
         private DcMotor leftMotorF;
         private DcMotor rightMotorB;
@@ -18,6 +17,7 @@ public class MotorFullTeleOP extends LinearOpMode {
         // This one represents the main arm motor
         private DcMotor armMotorF;
         private Servo rightServoF;
+        private DcMotor rackMotorF;
 
 
         @Override
@@ -29,6 +29,7 @@ public class MotorFullTeleOP extends LinearOpMode {
             rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
             rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
             armMotorF = hardwareMap.get(DcMotor.class, "motor4");
+            rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
             rightServoF = hardwareMap.get(Servo.class,"steve");
 
             // Send a message to the drivers phone that the variables are all set.
@@ -44,6 +45,7 @@ public class MotorFullTeleOP extends LinearOpMode {
             double tgtPowerLF = 0;
             double tgtPowerRF = 0;
             double tgtPowerArm = 0;
+            double tgtPowerRack = 0;
             double tgtPowerSteve = 0;
             // double tgtPowerNegSteve = 0;
 
@@ -53,18 +55,20 @@ public class MotorFullTeleOP extends LinearOpMode {
             leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rackMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 
-            //This is the main loop that runs teleop and runs multiple times a second.
+            //This is the main loop that runs tele-op and runs multiple times a second.
             //This keeps looping until the stop button is pressed.
             rightServoF.setPosition(0);
             while (opModeIsActive()) {
-                // you are asking the game pad what your current position is of a certain joystick or botton is
+                // you are asking the game pad what your current position is of a certain joystick or button is
                 tgtPowerLB = gamepad1.left_stick_y;
                 tgtPowerRF = -gamepad1.right_stick_y;
                 tgtPowerLF = gamepad1.left_stick_y;
                 tgtPowerRB = -gamepad1.right_stick_y;
                 tgtPowerArm = -gamepad2.right_stick_y;
+                tgtPowerRack = -gamepad2.left_stick_y;
                 tgtPowerSteve = this.gamepad2.left_trigger;
 
 
@@ -73,7 +77,8 @@ public class MotorFullTeleOP extends LinearOpMode {
                 leftMotorB.setPower(tgtPowerLB/2);
                 rightMotorF.setPower(tgtPowerRF/2);
                 rightMotorB.setPower(tgtPowerRB/2);
-                armMotorF.setPower(tgtPowerArm*100);
+                armMotorF.setPower(tgtPowerArm/2.5);
+                rackMotorF.setPower(tgtPowerRack);
                 rightServoF.setPosition(tgtPowerSteve);
 
 //            if(gamepad1.y){
@@ -89,6 +94,7 @@ public class MotorFullTeleOP extends LinearOpMode {
                 telemetry.addData("Target Power Left Front", tgtPowerLF);
                 telemetry.addData("Target Power Right Front", tgtPowerRF);
                 telemetry.addData("Target Power Front Arm", tgtPowerArm);
+                telemetry.addData("Target Power Rack Front", tgtPowerRack);
                 telemetry.addData("Servo Right Front", tgtPowerSteve);
                 // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
@@ -98,6 +104,7 @@ public class MotorFullTeleOP extends LinearOpMode {
                 telemetry.addData("Motor Power Right Back", rightMotorB.getPower());
                 telemetry.addData("Motor Power Right Front", rightMotorF.getPower());
                 telemetry.addData("Motor Power Arm Front", armMotorF.getPower());
+                telemetry.addData("Motor Power Rack Front", rackMotorF.getPower());
                 telemetry.addData("Servo Position", rightServoF.getPosition());
                 telemetry.addData("Target Power", tgtPowerSteve);
                 telemetry.addData("Status", "Running");
@@ -108,6 +115,7 @@ public class MotorFullTeleOP extends LinearOpMode {
             rightMotorF.setPower(0);
             rightMotorB.setPower(0);
             armMotorF.setPower(0);
+            rackMotorF.setPower(0);
             rightServoF.setPosition(0);
         }
 
@@ -123,6 +131,4 @@ public class MotorFullTeleOP extends LinearOpMode {
         }
 
     }
-
-
 
