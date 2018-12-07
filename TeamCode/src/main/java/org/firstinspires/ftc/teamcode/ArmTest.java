@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -48,7 +49,7 @@ public class ArmTest extends LinearOpMode {
 
 
         // wrap the IMU in our Gyro class so it is easier to get degrees turned
-        Gyro gyro = new Gyro(imu);
+        Gyro gyro = new Gyro(imu, this);
         gyro.StartGyro();
         // ------------ End of IMU Stuff --------------//
 

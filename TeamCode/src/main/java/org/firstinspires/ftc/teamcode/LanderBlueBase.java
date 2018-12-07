@@ -52,7 +52,7 @@ public class LanderBlueBase extends LinearOpMode {
         double tgtPowerArm = 0;
         double tgtPowerRack = 0;
         myTimer = new Timer();
-        Gyro gyro = new Gyro(imu);
+        Gyro gyro = new Gyro(imu, this);
 
         myTimer.setCompareTime(inchesToTime(4));
 
