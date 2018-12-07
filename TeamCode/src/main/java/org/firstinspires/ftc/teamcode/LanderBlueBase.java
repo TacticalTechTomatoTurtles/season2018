@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,6 +41,7 @@ public class LanderBlueBase extends LinearOpMode {
         rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class, "steve");
         Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
+        BNO055IMU imu =  hardwareMap.get(BNO055IMU.class, "imu");
 
 
         waitForStart();
@@ -50,16 +52,20 @@ public class LanderBlueBase extends LinearOpMode {
         double tgtPowerArm = 0;
         double tgtPowerRack = 0;
         myTimer = new Timer();
+        Gyro gyro = new Gyro(imu);
 
         myTimer.setCompareTime(inchesToTime(4));
-
 
         int state = DETACH_LANDER;
 
         while (opModeIsActive()) {
+
         if (state == DETACH_LANDER) {
             if (detach()) {
                 state = TURN_AFTER_DETACH;
+                gyro.StartGyro();
+                telemetry.addData("Gyro Mode:", "calibrating...");
+                telemetry.update();
                 myTimer.setCompareTime(inchesToTime(5));
                 myTimer.start();
             }   // go forward until you hit the wall

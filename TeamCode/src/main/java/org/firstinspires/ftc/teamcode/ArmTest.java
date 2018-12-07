@@ -28,29 +28,29 @@ public class ArmTest extends LinearOpMode {
         rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
         rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
 
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.mode                = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit           = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit           = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled      = false;
-        BNO055IMU imu =  hardwareMap.get(BNO055IMU.class, "imu");
-
-
         //stops movement of robot quickly.
         leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        // ------------ Start of IMU Setup Stuff --------------//
+        // Get the IMU and set its start up parameters
+
+        BNO055IMU imu =  hardwareMap.get(BNO055IMU.class, "imu");
+
+        // Now initialize it with the parameters - this starts the calibration
         telemetry.addData("Gyro Mode:", "calibrating...");
         telemetry.update();
 
-        imu.initialize(parameters);
-        // let the robot sit still while calibrating the gyro
-        while(!imu.isGyroCalibrated() && opModeIsActive()) {
-            // do noting... just wait
-            idle();
-        }
+
+        // let the robot sit still while calibrating the imu
+
+
+        // wrap the IMU in our Gyro class so it is easier to get degrees turned
+        Gyro gyro = new Gyro(imu);
+        gyro.StartGyro();
+        // ------------ End of IMU Stuff --------------//
 
         // Send a message to the drivers phone that the variables are all set.
         telemetry.addData("Gyro Status", imu.getCalibrationStatus().toString());
@@ -76,7 +76,6 @@ public class ArmTest extends LinearOpMode {
 
         // Note: since this loop will run until the turn is complete we need to check if the
         //       driver pressed stop while we are turning - the opModeIsActive() check.
-        Gyro gyro = new Gyro(imu);
         gyro.resetWithDirection(-1); // left = -1, right = +1
         while(gyro.getAngle() > -200 && opModeIsActive()) { // left is positive deg, right is neg deg
             // do nothing to the motors... let them keep running
