@@ -78,7 +78,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             rightMotorF.setPower(tgtPowerRF/2);
             rightMotorB.setPower(tgtPowerRB/2);
             armMotorF.setPower(tgtPowerArm/2.5);
-            rackMotorF.setPower(tgtPowerRack/2.5);
+            rackMotorF.setPower(tgtPowerRack);
             rightServoF.setPosition(tgtPowerSteve);
 
 //            if(gamepad1.y){

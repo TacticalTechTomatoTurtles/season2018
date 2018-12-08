@@ -129,31 +129,12 @@ public class SimpleDetach extends LinearOpMode {
         }
 
 
-        // -- turn 180 to the left to back into the crater --
-
-        // tell the gyro we are turning left and reset the measured angle to 0
-        gyro.resetWithDirection(Gyro.LEFT);
-
-        // start the motors turning left
-        leftMotorF.setPower(0.2);
-        leftMotorB.setPower(0.2);
-        rightMotorF.setPower(0.2);
-        rightMotorB.setPower(0.2);
-
-        // loop until the robot turns 180
-        while (opModeIsActive()) {
-            if(gyro.getAngle() >= 180){
-                break;
-            }
-        }
-
-
         // -- back into the crater --
         myTimer.setCompareTime(inchesToTime(100));
-        leftMotorF.setPower(0.25);
-        leftMotorB.setPower(0.25);
-        rightMotorF.setPower(-0.25);
-        rightMotorB.setPower(-0.25);
+        leftMotorF.setPower(-0.25);
+        leftMotorB.setPower(-0.25);
+        rightMotorF.setPower(0.25);
+        rightMotorB.setPower(0.25);
 
         myTimer.start();
         while (opModeIsActive()) {
