@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
-public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
+public class Que extends LinearOpMode {
 
     // represents the 4 wheel motors
     private DcMotor leftMotorB;
@@ -47,8 +47,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerArm = 0;
         double tgtPowerRack = 0;
         double tgtPowerSteve = 0;
-        double factor = 2;
-       // double tgtPowerNegSteve = 0;
+        // double tgtPowerNegSteve = 0;
 
         //stops movement of robot quickly.
         leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -68,29 +67,38 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerRF = -gamepad1.right_stick_y;
             tgtPowerLF = gamepad1.left_stick_y;
             tgtPowerRB = -gamepad1.right_stick_y;
-            tgtPowerArm = -gamepad2.right_stick_y;
-            tgtPowerRack = -gamepad2.left_stick_y;
-            tgtPowerSteve = this.gamepad2.left_trigger;
-
-
-            // determine the denominator based on the button
-
-            if(gamepad1.y){
-                factor = 1;
-            }else if(gamepad1.a) {
-                factor = 3;
-            }else if(gamepad1.x){
-                factor = 2;
+            if (gamepad1.dpad_right){
+                tgtPowerArm = 1;
+            }else if(gamepad1.dpad_left){
+                tgtPowerArm = -1;
+            }else{
+                tgtPowerArm = 0;
             }
+            if (gamepad1.dpad_up){
+                tgtPowerRack = 1;
+            }else if(gamepad1.dpad_down){
+                tgtPowerRack = -1;
+            }else{
+                tgtPowerRack = 0;
+            }
+            tgtPowerSteve = this.gamepad1.left_trigger;
+
 
             // you are telling the robot to use those variables to set that power to the motors
-            leftMotorF.setPower(tgtPowerLF/factor);
-            leftMotorB.setPower(tgtPowerLB/factor);
-            rightMotorF.setPower(tgtPowerRF/factor);
-            rightMotorB.setPower(tgtPowerRB/factor);
+            leftMotorF.setPower(tgtPowerLF/2);
+            leftMotorB.setPower(tgtPowerLB/2);
+            rightMotorF.setPower(tgtPowerRF/2);
+            rightMotorB.setPower(tgtPowerRB/2);
             armMotorF.setPower(tgtPowerArm/2.5);
             rackMotorF.setPower(tgtPowerRack);
             rightServoF.setPosition(tgtPowerSteve);
+
+//            if(gamepad1.y){
+//                changePower(.10);
+//          }
+            //          if(gamepad1.a) {
+            //          changePower(-.10);
+//            }
 
             // its sending the power of the motors to the phone
             telemetry.addData("Target Power Left Back", tgtPowerLB);
@@ -123,7 +131,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rightServoF.setPosition(0);
     }
 
-    public void changePower(double nPower){
+    public void changePower(Double nPower){
         leftMotorB.setPower((1+nPower)*leftMotorB.getPower());
         telemetry.addData("Left back motor", leftMotorB.getPower());
         leftMotorF.setPower((1+nPower)*leftMotorF.getPower());
@@ -135,4 +143,5 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
     }
 
 }
+
 

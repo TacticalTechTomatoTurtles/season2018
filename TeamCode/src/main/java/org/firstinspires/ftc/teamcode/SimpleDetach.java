@@ -130,7 +130,7 @@ public class SimpleDetach extends LinearOpMode {
 
 
         // -- back into the crater --
-        myTimer.setCompareTime(inchesToTime(100));
+        myTimer.setCompareTime(inchesToTime(80));
         leftMotorF.setPower(-0.25);
         leftMotorB.setPower(-0.25);
         rightMotorF.setPower(0.25);
