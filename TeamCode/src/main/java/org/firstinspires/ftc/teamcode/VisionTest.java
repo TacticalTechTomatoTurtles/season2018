@@ -4,23 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.corningrobotics.enderbots.endercv.CameraViewDisplay;
-import org.firstinspires.ftc.teamcode.vision.ColorRange;
 import org.firstinspires.ftc.teamcode.vision.MineralIdentifier;
 import org.firstinspires.ftc.teamcode.vision.Result;
-import org.opencv.core.Mat;
-import org.opencv.core.MatOfPoint;
-import org.opencv.core.Rect;
-import org.opencv.imgproc.Imgproc;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @TeleOp
 public class VisionTest extends LinearOpMode {
-    private ExampleBlueVision blueVision;
-
 
     public void runOpMode() {
 
