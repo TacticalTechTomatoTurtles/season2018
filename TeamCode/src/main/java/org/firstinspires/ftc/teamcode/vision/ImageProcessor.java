@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.vision;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.corningrobotics.enderbots.endercv.OpenCVPipeline;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;

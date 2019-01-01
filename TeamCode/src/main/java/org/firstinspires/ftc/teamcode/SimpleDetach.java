@@ -18,6 +18,7 @@ public class SimpleDetach extends LinearOpMode {
     private DcMotor rackMotorF;
     private Servo rightServoF;
     private TouchSensor Tanner;
+    private Servo iconServo;
 
     @Override
     public void runOpMode() {
@@ -34,6 +35,7 @@ public class SimpleDetach extends LinearOpMode {
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         Gyro gyro = new Gyro(imu, this);
         myTimer = new Timer();
+        iconServo = hardwareMap.get(Servo.class,"alex");
 
         //stops movement of robot quickly.
         leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -127,6 +129,8 @@ public class SimpleDetach extends LinearOpMode {
                     break;
             }
         }
+
+        //icon drop
 
 
         // -- back into the crater --

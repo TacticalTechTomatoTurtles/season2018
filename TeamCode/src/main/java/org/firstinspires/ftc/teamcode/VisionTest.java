@@ -22,7 +22,6 @@ public class VisionTest extends LinearOpMode {
     private ExampleBlueVision blueVision;
 
 
-
     public void runOpMode() {
 
         MineralIdentifier minid = new MineralIdentifier();
@@ -35,15 +34,17 @@ public class VisionTest extends LinearOpMode {
         log("waiting for start");
         waitForStart();
 
-        Timer t = new Timer();
-        t.setCompareTime(5000);
-        t.start();
-        log("timer started");
-
-        //while(opModeIsActive()) {
         while(opModeIsActive()) {
             List<Result> results = minid.getResults();
             log("results: " + (results == null ? "null" : results.size()));
+
+            if(results != null && results.size() == 1) {
+                Result item = results.get(0);
+
+                // navigate to the item
+            } else {
+                // look for the item
+            }
         }
 
         minid.disable();

@@ -14,15 +14,9 @@ import java.util.List;
 
 public class MineralIdentifier extends OpenCVPipeline {
 
-    private boolean updated = false;
     private List<Result> procResults = null;
-
-    public synchronized boolean setUpdated(boolean val) {
-        boolean old = updated;
-        updated = val;
-
-        return old;
-    }
+    private ImageProcessor improc = new ImageProcessor();
+    private Tracker tracker = new Tracker();
 
     public synchronized List<Result> getResults() {
         return procResults;
@@ -32,38 +26,47 @@ public class MineralIdentifier extends OpenCVPipeline {
         this.procResults = res;
     }
 
-    ImageProcessor improc = new ImageProcessor();
     // This is called every camera frame.
-
     @Override
     public Mat processFrame(Mat rgba, Mat gray) {
 
-            ColorRange colorRange = new ColorRange();
-        //colorRange.setLower(98.03, 253.51, 94.87);
-        //colorRange.setUpper(107.47, 256.19, 257.43);
-
-        //colorRange.setLower(6.09, 207.04, 121.87);
-        //colorRange.setUpper(21.13, 261.72, 222.71);
+        // Set the HSV color range we want to look for
+        ColorRange colorRange = new ColorRange();
         colorRange.setLower(2.33, 193.37, 96.66);
         colorRange.setUpper(24.89, 275.39, 247.92);
 
+        // Find objects in the frame that are the right color
         List<Result> results = improc.findRectangles(rgba, null, colorRange, 200);
+        tracker.update(results);
+        Result tracked = tracker.getTrackedItem();
+
+        results = new ArrayList<>();
+        if(tracked != null) {
+            results.add(tracked);
+        }
+
+        // Set the results so they can be later retrieved by the robot code.
+        // This code is working in a different thread than the robot code
         setResults(results);
 
+        // Get all of the object outlines from the results and draw them on the frame
         List<MatOfPoint> contours = new ArrayList<>();
         for(Result r : results) {
             contours.add(r.getContour());
         }
-
         Imgproc.drawContours(rgba, contours, -1, new Scalar(0, 255, 0), 2, 8);
 
+        // Draw the circles and/or rectangles that contain the outlines
         for(Result res : results) {
+
+            // If there is a bounding circle for the outline, draw it and its center
             CircleShape c = res.getCircle();
             if(c != null) {
                 Imgproc.circle(rgba, c.getCenter(), (int) c.getRadius(), new Scalar(255, 0, 0));
                 Imgproc.circle(rgba, c.getCenter(), 3, new Scalar(255, 0, 0));
             }
 
+            // If there is a bounding retangle for the outline, draw it and its center
             RotatedRect r = res.getRectangle();
             if(r != null) {
                 Point[] verts = new Point[4];
@@ -76,6 +79,7 @@ public class MineralIdentifier extends OpenCVPipeline {
             }
         }
 
-        return rgba; // display the image seen by the camera
+        // Now return the frame with the outlines and shapes drawn on it to the pipeline to be displayed on the phone
+        return rgba;
     }
 }
