@@ -17,6 +17,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
     // This one represents the main arm motor
     private DcMotor armMotorF;
     private Servo rightServoF;
+    private Servo iconServoF;
     private DcMotor rackMotorF;
 
 
@@ -31,6 +32,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class,"steve");
+        iconServoF = hardwareMap.get(Servo.class,"iconDropServo");
+
 
         // Send a message to the drivers phone that the variables are all set.
         telemetry.addData("Status", "Initialized");
@@ -47,6 +50,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerArm = 0;
         double tgtPowerRack = 0;
         double tgtPowerSteve = 0;
+        double tgtPowerIcon = 0;
         double factor = 2;
        // double tgtPowerNegSteve = 0;
 
@@ -71,6 +75,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerArm = -gamepad2.right_stick_y;
             tgtPowerRack = -gamepad2.left_stick_y;
             tgtPowerSteve = this.gamepad2.left_trigger;
+            tgtPowerIcon = this.gamepad2.left_trigger;
+
 
 
             // determine the denominator based on the button
@@ -91,6 +97,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             armMotorF.setPower(tgtPowerArm/2.5);
             rackMotorF.setPower(tgtPowerRack);
             rightServoF.setPosition(tgtPowerSteve);
+            iconServoF.setPosition(tgtPowerIcon);
+
 
             // its sending the power of the motors to the phone
             telemetry.addData("Target Power Left Back", tgtPowerLB);
@@ -100,6 +108,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Target Power Front Arm", tgtPowerArm);
             telemetry.addData("Target Power Rack Front", tgtPowerRack);
             telemetry.addData("Servo Right Front", tgtPowerSteve);
+            telemetry.addData("Servo Right Front", tgtPowerIcon);
+
             // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
             // sending motors to the phone
@@ -110,7 +120,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Motor Power Arm Front", armMotorF.getPower());
             telemetry.addData("Motor Power Rack Front", rackMotorF.getPower());
             telemetry.addData("Servo Position", rightServoF.getPosition());
-            telemetry.addData("Target Power", tgtPowerSteve);
+            telemetry.addData("Servo Position", iconServoF.getPosition());
             telemetry.addData("Status", "Running");
             telemetry.update();
         }

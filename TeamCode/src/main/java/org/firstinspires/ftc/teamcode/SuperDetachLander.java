@@ -17,6 +17,7 @@ public class SuperDetachLander extends LinearOpMode{
         private DcMotor armMotorF;
         private DcMotor rackMotorF;
         private Servo rightServoF;
+        private Servo leftServoF;
         private TouchSensor Tanner;
         private Servo iconServo;
 
@@ -31,6 +32,7 @@ public class SuperDetachLander extends LinearOpMode{
             armMotorF = hardwareMap.get(DcMotor.class, "motor4");
             rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
             rightServoF = hardwareMap.get(Servo.class, "steve");
+            leftServoF = hardwareMap.get(Servo.class, "iconDropServo");
             Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
             BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
             Gyro gyro = new Gyro(imu, this);
@@ -137,32 +139,62 @@ public class SuperDetachLander extends LinearOpMode{
             leftMotorB.setPower(-0.5);
             rightMotorF.setPower(0.5);
             rightMotorB.setPower(0.5);
+            myTimer.start();
+            while (opModeIsActive()) {
+                if (myTimer.timeChecker()){
+                    break;
+                }
+            }
             //       ------- turn 90 degrees -------
-            myTimer.setCompareTime(inchesToTime(2));
-            leftMotorF.setPower(-0.25);
-            leftMotorB.setPower(-0.25);
-            rightMotorF.setPower(-0.25);
-            rightMotorB.setPower(-0.25);
+            gyro.resetWithDirection(Gyro.LEFT);
+            leftMotorF.setPower(0.2);
+            leftMotorB.setPower(0.2);
+            rightMotorF.setPower(0.2);
+            rightMotorB.setPower(0.2);
+            while (opModeIsActive()) {
+                if(gyro.getAngle() >= 90){
+                    break;
+                }
+            }
             //       ------- go forward 29 inches --------
             myTimer.setCompareTime(inchesToTime(58));
             leftMotorF.setPower(-0.5);
             leftMotorB.setPower(-0.5);
             rightMotorF.setPower(0.5);
             rightMotorB.setPower(0.5);
-            //       ------- turn 90 degrees -------
-            myTimer.setCompareTime(inchesToTime(2/3));
-            leftMotorF.setPower(-0.25);
-            leftMotorB.setPower(-0.25);
-            rightMotorF.setPower(-0.25);
-            rightMotorB.setPower(-0.25);
-            //       ------- go forward 64 inches --------
-            myTimer.setCompareTime(inchesToTime(128));
+            myTimer.start();
+            while (opModeIsActive()) {
+                if (myTimer.timeChecker()){
+                    break;
+                }
+            }
+            //       ------- turn 30 degrees -------
+            gyro.resetWithDirection(Gyro.LEFT);
+            leftMotorF.setPower(0.2);
+            leftMotorB.setPower(0.2);
+            rightMotorF.setPower(0.2);
+            rightMotorB.setPower(0.2);
+            while (opModeIsActive()) {
+                if(gyro.getAngle() >= 30){
+                    break;
+                }
+            }
+            //       ------- go forward 54 inches --------
+            myTimer.setCompareTime(inchesToTime(108));
             leftMotorF.setPower(-0.5);
             leftMotorB.setPower(-0.5);
             rightMotorF.setPower(0.5);
             rightMotorB.setPower(0.5);
+            myTimer.start();
+            while (opModeIsActive()) {
+                if (myTimer.timeChecker()){
+                    break;
+                }
+            }
             //       ------- lower servo -------
 
+            leftServoF.setPosition(-100);
+            leftServoF.setPosition(0);
 
             // -- back into the crater --
             myTimer.setCompareTime(inchesToTime(80));
