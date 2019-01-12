@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.provider.UserDictionary;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -59,7 +61,9 @@ public class CoordanatePlane extends LinearOpMode {
         // start the vision system
         minid.enable();
         log("waiting for start");
+        gyro.StartGyro();
         waitForStart();
+
 
         while (opModeIsActive()) {
             List<Result> results = minid.getResults();
@@ -73,7 +77,7 @@ public class CoordanatePlane extends LinearOpMode {
 
                 if (item.getCenter().x < first) {
                     //turn left
-                    gyro.resetWithDirection(Gyro.LEFT);
+
                     leftMotorF.setPower(0.2);
                     leftMotorB.setPower(0.2);
                     rightMotorF.setPower(0.2);
@@ -92,7 +96,6 @@ public class CoordanatePlane extends LinearOpMode {
                     leftMotorB.setPower(-0.2);
                     rightMotorF.setPower(-0.2);
                     rightMotorB.setPower(-0.2);
-
                     // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
                         if(gyro.getAngle() <= -5){

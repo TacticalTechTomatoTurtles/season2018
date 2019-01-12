@@ -18,6 +18,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
     private DcMotor armMotorF;
     private Servo rightServoF;
     private Servo iconServoF;
+    private Servo armServo;
     private DcMotor rackMotorF;
 
 
@@ -33,6 +34,7 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class,"steve");
         iconServoF = hardwareMap.get(Servo.class,"iconDropServo");
+        armServo = hardwareMap.get(Servo.class,"armServo");
 
 
         // Send a message to the drivers phone that the variables are all set.
@@ -51,6 +53,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
         double tgtPowerRack = 0;
         double tgtPowerSteve = 0;
         double tgtPowerIcon = 0;
+        double servoPowerKeeper = 0;
+        double tgtPowerArmServo = 0;
         double factor = 2;
        // double tgtPowerNegSteve = 0;
 
@@ -75,8 +79,20 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerArm = -gamepad2.right_stick_y;
             tgtPowerRack = -gamepad2.left_stick_y;
             tgtPowerSteve = this.gamepad2.left_trigger;
-            tgtPowerIcon = this.gamepad2.left_trigger;
+            tgtPowerIcon = this.gamepad1.left_trigger;
+            tgtPowerArmServo = servoPowerKeeper;
 
+            if(this.gamepad2.dpad_up){
+                servoPowerKeeper = servoPowerKeeper + 0.001;
+                if(servoPowerKeeper > 1) {
+                    servoPowerKeeper = 1;
+                }
+            }else if(this.gamepad2.dpad_down) {
+                servoPowerKeeper = servoPowerKeeper - 0.001;
+                if(servoPowerKeeper<0){
+                    servoPowerKeeper = 0;
+                }
+            }
 
 
             // determine the denominator based on the button
@@ -98,17 +114,18 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             rackMotorF.setPower(tgtPowerRack);
             rightServoF.setPosition(tgtPowerSteve);
             iconServoF.setPosition(tgtPowerIcon);
+            armServo.setPosition(tgtPowerArmServo);
 
 
             // its sending the power of the motors to the phone
-            telemetry.addData("Target Power Left Back", tgtPowerLB);
-            telemetry.addData("Target Power Right Back", tgtPowerRB);
-            telemetry.addData("Target Power Left Front", tgtPowerLF);
-            telemetry.addData("Target Power Right Front", tgtPowerRF);
-            telemetry.addData("Target Power Front Arm", tgtPowerArm);
-            telemetry.addData("Target Power Rack Front", tgtPowerRack);
-            telemetry.addData("Servo Right Front", tgtPowerSteve);
-            telemetry.addData("Servo Right Front", tgtPowerIcon);
+            //telemetry.addData("Target Power Left Back", tgtPowerLB);
+            //telemetry.addData("Target Power Right Back", tgtPowerRB);
+            //telemetry.addData("Target Power Left Front", tgtPowerLF);
+           // telemetry.addData("Target Power Right Front", tgtPowerRF);
+            //telemetry.addData("Target Power Front Arm", tgtPowerArm);
+            //telemetry.addData("Target Power Rack Front", tgtPowerRack);
+            //telemetry.addData("Servo Right Front", tgtPowerSteve);
+            telemetry.addData("Arm Servo ", tgtPowerArmServo);
 
             // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 

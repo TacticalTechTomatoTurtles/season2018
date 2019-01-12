@@ -4,6 +4,7 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
@@ -20,6 +21,7 @@ public class SuperDetachLander extends LinearOpMode{
         private Servo leftServoF;
         private TouchSensor Tanner;
         private Servo iconServo;
+        private DistanceSensor sensorRange;
 
         @Override
         public void runOpMode() {
@@ -38,6 +40,7 @@ public class SuperDetachLander extends LinearOpMode{
             Gyro gyro = new Gyro(imu, this);
             myTimer = new Timer();
             iconServo = hardwareMap.get(Servo.class,"alex");
+            sensorRange = hardwareMap.get(DistanceSensor.class, "ultraSonic");
 
             //stops movement of robot quickly.
             leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -118,6 +121,9 @@ public class SuperDetachLander extends LinearOpMode{
                 }
             }
 
+            // Find the gold block
+
+
 
             // -- go forward a few inches to get clear of the lander --
             myTimer.setCompareTime(inchesToTime(40));
@@ -133,8 +139,8 @@ public class SuperDetachLander extends LinearOpMode{
             }
 
             //icon drop
-            //       ------- go forward 16 inches --------
-            myTimer.setCompareTime(inchesToTime(32));
+            //       ------- go forward 6 inches --------
+            myTimer.setCompareTime(inchesToTime(12));
             leftMotorF.setPower(-0.5);
             leftMotorB.setPower(-0.5);
             rightMotorF.setPower(0.5);
