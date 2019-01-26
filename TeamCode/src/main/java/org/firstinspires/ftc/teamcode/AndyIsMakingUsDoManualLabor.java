@@ -83,12 +83,12 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             tgtPowerArmServo = servoPowerKeeper;
 
             if(this.gamepad2.dpad_up){
-                servoPowerKeeper = servoPowerKeeper + 0.001;
+                servoPowerKeeper = servoPowerKeeper + 0.01;
                 if(servoPowerKeeper > 1) {
                     servoPowerKeeper = 1;
                 }
             }else if(this.gamepad2.dpad_down) {
-                servoPowerKeeper = servoPowerKeeper - 0.001;
+                servoPowerKeeper = servoPowerKeeper - 0.01;
                 if(servoPowerKeeper<0){
                     servoPowerKeeper = 0;
                 }

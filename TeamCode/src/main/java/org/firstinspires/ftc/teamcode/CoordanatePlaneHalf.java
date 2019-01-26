@@ -100,7 +100,7 @@ public class CoordanatePlaneHalf extends LinearOpMode {
                         rightMotorB.setPower(-0.2);
                         // loop until the robot turns 25 degrees
                         while (opModeIsActive()) {
-                            if (gyro.getAngle() <= -5) {
+                            if (gyro.getAngle() <= -45) {
                                 break;
                             }
                         }
@@ -115,7 +115,7 @@ public class CoordanatePlaneHalf extends LinearOpMode {
                     rightMotorF.setPower(0.2);
                     rightMotorB.setPower(0.2);
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() >= 5) {
+                        if (gyro.getAngle() >= 45) {
                             break;
                         }
                     }
@@ -124,6 +124,8 @@ public class CoordanatePlaneHalf extends LinearOpMode {
                 leftMotorB.setPower(0);
                 rightMotorF.setPower(0);
                 rightMotorB.setPower(0);
+
+                // TODO: add code for moving back here???
             }
 
 

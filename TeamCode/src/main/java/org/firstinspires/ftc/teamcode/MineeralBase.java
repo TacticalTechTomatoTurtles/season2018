@@ -1,0 +1,354 @@
+package org.firstinspires.ftc.teamcode;
+
+import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.corningrobotics.enderbots.endercv.CameraViewDisplay;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.teamcode.vision.MineralIdentifier;
+import org.firstinspires.ftc.teamcode.vision.Result;
+
+import java.util.List;
+
+@Autonomous
+public class MineeralBase extends LinearOpMode {
+
+    private DistanceSensor sensorRange;
+    private Timer myTimer;
+    private DcMotor leftMotorB;
+    private DcMotor leftMotorF;
+    private DcMotor rightMotorB;
+    private DcMotor rightMotorF;
+    private DcMotor armMotorF;
+    private DcMotor rackMotorF;
+    private Servo rightServoF;
+    private Servo leftServoF;
+    private TouchSensor Tanner;
+    private Servo iconServo;
+    private int BaseGyroSet;
+
+    @Override
+    public void runOpMode() {
+        leftMotorB = hardwareMap.get(DcMotor.class, "motor0");
+        leftMotorF = hardwareMap.get(DcMotor.class, "motor1");
+        rightMotorF = hardwareMap.get(DcMotor.class, "motor2");
+        rightMotorB = hardwareMap.get(DcMotor.class, "motor3");
+        armMotorF = hardwareMap.get(DcMotor.class, "motor4");
+        rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
+        rightServoF = hardwareMap.get(Servo.class, "steve");
+        leftServoF = hardwareMap.get(Servo.class, "iconDropServo");
+        Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
+        BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
+        MineralIdentifier minid = new MineralIdentifier();
+        Gyro gyro = new Gyro(imu, this);
+        myTimer = new Timer();
+        iconServo = hardwareMap.get(Servo.class, "alex");
+        sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
+
+        //stops movement of robot quickly.
+        leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightMotorB.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        armMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rackMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+        minid.init(hardwareMap.appContext, CameraViewDisplay.getInstance());
+
+        // start the vision system
+        minid.enable();
+
+        // wait for the start button to be pushed
+        waitForStart();
+
+        myTimer.setCompareTime(2300);
+        rackMotorF.setPower(-1);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
+        rackMotorF.setPower(0);
+
+        // now that the robot is on the ground calibrate the gyro
+        gyro.StartGyro();
+
+
+        // -- turn left to get off the lander latch --
+
+        // tell the gyro we are turning left and reset the measured angle to 0
+        gyro.resetWithDirection(Gyro.LEFT);
+
+        // start the motors turning left
+        leftMotorF.setPower(0.5);
+        leftMotorB.setPower(0.5);
+        rightMotorF.setPower(0.5);
+        rightMotorB.setPower(0.5);
+
+        // loop until the robot turns 25 degrees
+        while (opModeIsActive()) {
+            if (gyro.getAngle() >= 25) {
+                break;
+            }
+        }
+
+        // turn off the motors after the turn
+        leftMotorF.setPower(0);
+        leftMotorB.setPower(0);
+        rightMotorF.setPower(0);
+        rightMotorB.setPower(0);
+
+        // -- lower the rack arm --
+        myTimer.setCompareTime(2300);
+        rackMotorF.setPower(1);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
+        rackMotorF.setPower(0);
+
+        // -- turn right to line back up with the crater --
+
+        // tell the gyro we are turning right and reset the measured angle to 0
+        gyro.resetWithDirection(Gyro.RIGHT);
+
+        // start the motors turning right
+        leftMotorF.setPower(-0.2);
+        leftMotorB.setPower(-0.2);
+        rightMotorF.setPower(-0.2);
+        rightMotorB.setPower(-0.2);
+
+        // loop until the robot turns 25 degrees
+        while (opModeIsActive()) {
+            if (gyro.getAngle() <= -25) {
+                break;
+            }
+        }
+
+        leftMotorF.setPower(0);
+        leftMotorB.setPower(0);
+        rightMotorF.setPower(0);
+        rightMotorB.setPower(0);
+
+        // ASSERT! we are all detached from the lander
+
+        while (opModeIsActive()) {
+            List<Result> results = minid.getResults();
+            log("results: " + (results == null ? "null" : results.size()));
+
+            if (results != null && results.size() == 1) {
+                Result item = results.get(0);
+                double width = item.getFrameSize().getWidth();
+                // double first = width / 3;
+                //  double second = first * 2;
+                double half = width / 2;
+
+                if (item.getCenter().x < half) {
+                    //turn left
+                    myTimer.setCompareTime(inchesToTime(18));
+                    leftMotorF.setPower(-0.5);
+                    leftMotorB.setPower(-0.5);
+                    rightMotorF.setPower(0.5);
+                    rightMotorB.setPower(0.5);
+                    myTimer.start();
+                    while (opModeIsActive()) {
+                        if (myTimer.timeChecker())
+                        leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        leftMotorF.setPower(0.2);
+                        leftMotorB.setPower(0.2);
+                        rightMotorF.setPower(0.2);
+                        rightMotorB.setPower(0.2);
+
+                        if (gyro.getAngle() == 0)
+
+                        leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        leftMotorF.setPower(-0.25);
+                        leftMotorB.setPower(-0.25);
+                        rightMotorF.setPower(0.25);
+                        rightMotorB.setPower(0.25);
+
+                        while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
+
+                        leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        BaseGyroSet = 15;
+                        {
+                            break;
+                        }
+                    }
+                } else if (item.getCenter().x > half) {
+                    //turn right
+                    gyro.resetWithDirection(Gyro.RIGHT);
+
+                    // start the motors turning right
+                    myTimer.setCompareTime(inchesToTime(18));
+                    leftMotorF.setPower(-0.5);
+                    leftMotorB.setPower(-0.5);
+                    rightMotorF.setPower(0.5);
+                    rightMotorB.setPower(0.5);
+                    myTimer.start();
+
+                    leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
+                    leftMotorF.setPower(-0.2);
+                    leftMotorB.setPower(-0.2);
+                    rightMotorF.setPower(-0.2);
+                    rightMotorB.setPower(-0.2);
+
+                    // loop until the robot turns 25 degrees
+                    while (opModeIsActive()) {
+                        if (gyro.getAngle() <= -45)
+                            leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        leftMotorF.setPower(0.2);
+                        leftMotorB.setPower(0.2);
+                        rightMotorF.setPower(0.2);
+                        rightMotorB.setPower(0.2);
+
+                        if (gyro.getAngle() == 0)
+
+                            leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        leftMotorF.setPower(-0.25);
+                        leftMotorB.setPower(-0.25);
+                        rightMotorF.setPower(0.25);
+                        rightMotorB.setPower(0.25);
+
+                        while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
+
+                        leftMotorF.setPower(0);
+                        leftMotorB.setPower(0);
+                        rightMotorF.setPower(0);
+                        rightMotorB.setPower(0);
+
+                        BaseGyroSet = 60;{
+                            break;
+                        }
+                    }
+                }
+                // navigate to the item
+            } else {
+                // go forward
+                gyro.resetWithDirection(Gyro.LEFT);
+
+                myTimer.setCompareTime(inchesToTime(18));
+                leftMotorF.setPower(-0.5);
+                leftMotorB.setPower(-0.5);
+                rightMotorF.setPower(0.5);
+                rightMotorB.setPower(0.5);
+                myTimer.start();
+
+                while (opModeIsActive()) {
+                    if (gyro.getAngle() >= 45)
+                        leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
+                    leftMotorF.setPower(0.2);
+                    leftMotorB.setPower(0.2);
+                    rightMotorF.setPower(0.2);
+                    rightMotorB.setPower(0.2);
+
+                    if (gyro.getAngle() == 0)
+
+                        leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
+                    leftMotorF.setPower(-0.25);
+                    leftMotorB.setPower(-0.25);
+                    rightMotorF.setPower(0.25);
+                    rightMotorB.setPower(0.25);
+
+                    while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
+
+                    leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+                    BaseGyroSet = 85;
+                    {break;}
+            }
+        }
+
+        // TODO: add code for moving back here???
+    }
+    minid.disable();
+
+    log("exiting.");
+
+    iconServo.setPosition(2);
+    iconServo.setPosition(0);
+    iconServo.setPosition(2);
+    iconServo.setPosition(0);
+
+        leftMotorF.setPower(-0.2);
+        leftMotorB.setPower(-0.2);
+        rightMotorF.setPower(-0.2);
+        rightMotorB.setPower(-0.2);
+
+        if (gyro.getAngle() == BaseGyroSet)
+
+        leftMotorF.setPower(0);
+        leftMotorB.setPower(0);
+        rightMotorF.setPower(0);
+        rightMotorB.setPower(0);
+
+        leftMotorF.setPower(-0.2);
+        leftMotorB.setPower(-0.2);
+        rightMotorF.setPower(0.2);
+        rightMotorB.setPower(0.2);
+
+        myTimer.setCompareTime(inchesToTime(160));
+        leftMotorF.setPower(-0.25);
+        leftMotorB.setPower(-0.25);
+        rightMotorF.setPower(0.25);
+        rightMotorB.setPower(0.25);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()){
+                break;
+            }
+        }
+
+}
+
+    private void log(String message) {
+        telemetry.addData("log", message);
+        telemetry.update();
+    }
+    public long inchesToTime(double inches) {
+        return (long) (0.0384 * inches * 1000.0);
+    }
+}

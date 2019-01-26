@@ -40,7 +40,7 @@ public class SuperDetachLander extends LinearOpMode{
             Gyro gyro = new Gyro(imu, this);
             myTimer = new Timer();
             iconServo = hardwareMap.get(Servo.class,"alex");
-            sensorRange = hardwareMap.get(DistanceSensor.class, "ultraSonic");
+            sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
             //stops movement of robot quickly.
             leftMotorF.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

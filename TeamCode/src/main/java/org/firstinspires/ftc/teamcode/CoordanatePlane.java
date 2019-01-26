@@ -83,7 +83,7 @@ public class CoordanatePlane extends LinearOpMode {
                     rightMotorF.setPower(0.2);
                     rightMotorB.setPower(0.2);
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() >= 5) {
+                        if (gyro.getAngle() >= 45) {
                             break;
                         }
                     }
@@ -98,7 +98,7 @@ public class CoordanatePlane extends LinearOpMode {
                     rightMotorB.setPower(-0.2);
                     // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
-                        if(gyro.getAngle() <= -5){
+                        if(gyro.getAngle() <= -45){
                             break;
                         }
                     }
