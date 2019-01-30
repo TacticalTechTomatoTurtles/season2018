@@ -118,16 +118,16 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
 
 
             // its sending the power of the motors to the phone
-            //telemetry.addData("Target Power Left Back", tgtPowerLB);
-            //telemetry.addData("Target Power Right Back", tgtPowerRB);
-            //telemetry.addData("Target Power Left Front", tgtPowerLF);
-           // telemetry.addData("Target Power Right Front", tgtPowerRF);
-            //telemetry.addData("Target Power Front Arm", tgtPowerArm);
-            //telemetry.addData("Target Power Rack Front", tgtPowerRack);
-            //telemetry.addData("Servo Right Front", tgtPowerSteve);
+            telemetry.addData("Target Power Left Back", tgtPowerLB);
+            telemetry.addData("Target Power Right Back", tgtPowerRB);
+            telemetry.addData("Target Power Left Front", tgtPowerLF);
+            telemetry.addData("Target Power Right Front", tgtPowerRF);
+            telemetry.addData("Target Power Front Arm", tgtPowerArm);
+            telemetry.addData("Target Power Rack Front", tgtPowerRack);
+            telemetry.addData("Servo Right Front", tgtPowerSteve);
             telemetry.addData("Arm Servo ", tgtPowerArmServo);
 
-            // telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
+            //telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 
             // sending motors to the phone
             telemetry.addData("Motor Power Left Back", leftMotorB.getPower());

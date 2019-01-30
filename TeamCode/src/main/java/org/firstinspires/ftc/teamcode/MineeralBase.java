@@ -141,10 +141,12 @@ public class MineeralBase extends LinearOpMode {
 
         // ASSERT! we are all detached from the lander
 
+        //Starts looking for mineral
         while (opModeIsActive()) {
             List<Result> results = minid.getResults();
             log("results: " + (results == null ? "null" : results.size()));
 
+            // see if we got a hit from the vision system
             if (results != null && results.size() == 1) {
                 Result item = results.get(0);
                 double width = item.getFrameSize().getWidth();
@@ -153,66 +155,48 @@ public class MineeralBase extends LinearOpMode {
                 double half = width / 2;
 
                 if (item.getCenter().x < half) {
-                    //turn left
-                    myTimer.setCompareTime(inchesToTime(18));
+                    // CHECK: block is in front = go forward 18 inches
                     leftMotorF.setPower(-0.5);
                     leftMotorB.setPower(-0.5);
                     rightMotorF.setPower(0.5);
                     rightMotorB.setPower(0.5);
+
+                    myTimer.setCompareTime(inchesToTime(18));
                     myTimer.start();
                     while (opModeIsActive()) {
-                        if (myTimer.timeChecker())
-                        leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        leftMotorF.setPower(0.2);
-                        leftMotorB.setPower(0.2);
-                        rightMotorF.setPower(0.2);
-                        rightMotorB.setPower(0.2);
-
-                        if (gyro.getAngle() == 0)
-
-                        leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        leftMotorF.setPower(-0.25);
-                        leftMotorB.setPower(-0.25);
-                        rightMotorF.setPower(0.25);
-                        rightMotorB.setPower(0.25);
-
-                        while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
-
-                        leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        BaseGyroSet = 15;
-                        {
+                        // TODO: need brackets for the if and a break statement
+                        if (myTimer.timeChecker()) {
                             break;
                         }
                     }
-                } else if (item.getCenter().x > half) {
-                    //turn right
-                    gyro.resetWithDirection(Gyro.RIGHT);
-
-                    // start the motors turning right
-                    myTimer.setCompareTime(inchesToTime(18));
-                    leftMotorF.setPower(-0.5);
-                    leftMotorB.setPower(-0.5);
-                    rightMotorF.setPower(0.5);
-                    rightMotorB.setPower(0.5);
-                    myTimer.start();
 
                     leftMotorF.setPower(0);
                     leftMotorB.setPower(0);
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+                    // CHECK: go forward until 5 inches from wall
+                    leftMotorF.setPower(-0.25);
+                    leftMotorB.setPower(-0.25);
+                    rightMotorF.setPower(0.25);
+                    rightMotorB.setPower(0.25);
+
+                    // TODO: while distance greater than 5
+                    while (sensorRange.getDistance(DistanceUnit.INCH) > 5) {
+                    }
+
+                    leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
+                    BaseGyroSet = 15;
+
+                } else if (item.getCenter().x > half) {
+                    //turn right
+                    gyro.resetWithDirection(Gyro.RIGHT);
+
+                    // start the motors turning right
                     leftMotorF.setPower(-0.2);
                     leftMotorB.setPower(-0.2);
                     rightMotorF.setPower(-0.2);
@@ -220,68 +204,47 @@ public class MineeralBase extends LinearOpMode {
 
                     // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() <= -45)
-                            leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        leftMotorF.setPower(0.2);
-                        leftMotorB.setPower(0.2);
-                        rightMotorF.setPower(0.2);
-                        rightMotorB.setPower(0.2);
-
-                        if (gyro.getAngle() == 0)
-
-                            leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        leftMotorF.setPower(-0.25);
-                        leftMotorB.setPower(-0.25);
-                        rightMotorF.setPower(0.25);
-                        rightMotorB.setPower(0.25);
-
-                        while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
-
-                        leftMotorF.setPower(0);
-                        leftMotorB.setPower(0);
-                        rightMotorF.setPower(0);
-                        rightMotorB.setPower(0);
-
-                        BaseGyroSet = 60;{
+                        if (gyro.getAngle() <= -45) {
                             break;
                         }
                     }
-                }
-                // navigate to the item
-            } else {
-                // go forward
-                gyro.resetWithDirection(Gyro.LEFT);
 
-                myTimer.setCompareTime(inchesToTime(18));
-                leftMotorF.setPower(-0.5);
-                leftMotorB.setPower(-0.5);
-                rightMotorF.setPower(0.5);
-                rightMotorB.setPower(0.5);
-                myTimer.start();
+                    // start the motors turning right
+                    // CHECK: go forward?
+                    myTimer.setCompareTime(inchesToTime(18));
+                    leftMotorF.setPower(-0.5);
+                    leftMotorB.setPower(-0.5);
+                    rightMotorF.setPower(0.5);
+                    rightMotorB.setPower(0.5);
+                    myTimer.start();
 
-                while (opModeIsActive()) {
-                    if (gyro.getAngle() >= 45)
-                        leftMotorF.setPower(0);
+                    while (opModeIsActive()) {
+                        if (myTimer.timeChecker()) {
+                            break;
+                        }
+                    }
+
+                    leftMotorF.setPower(0);
                     leftMotorB.setPower(0);
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+                    gyro.resetWithDirection(Gyro.LEFT);
+
+                    // start the motors turning right
                     leftMotorF.setPower(0.2);
                     leftMotorB.setPower(0.2);
                     rightMotorF.setPower(0.2);
                     rightMotorB.setPower(0.2);
 
-                    if (gyro.getAngle() == 0)
+                    // loop until the robot turns 25 degrees
+                    while (opModeIsActive()) {
+                        if (gyro.getAngle() >= 45) {
+                            break;
+                        }
+                    }
 
-                        leftMotorF.setPower(0);
+                    leftMotorF.setPower(0);
                     leftMotorB.setPower(0);
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
@@ -291,34 +254,118 @@ public class MineeralBase extends LinearOpMode {
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                    while (sensorRange.getDistance(DistanceUnit.INCH) == 5) { }
+                    while (sensorRange.getDistance(DistanceUnit.INCH) >= 5) {
+                    }
 
                     leftMotorF.setPower(0);
                     leftMotorB.setPower(0);
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
-                    BaseGyroSet = 85;
-                    {break;}
+
+                    BaseGyroSet = 60;
+                }
+                // navigate to the item
+            } else {
+                // go left
+                gyro.resetWithDirection(Gyro.LEFT);
+
+                // start the motors turning right
+                leftMotorF.setPower(0.2);
+                leftMotorB.setPower(0.2);
+                rightMotorF.setPower(0.2);
+                rightMotorB.setPower(0.2);
+
+                // loop until the robot turns 25 degrees
+                while (opModeIsActive()) {
+                    if (gyro.getAngle() >= 45) {
+                        break;
+                    }
+                }
+
+                leftMotorF.setPower(0);
+                leftMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                rightMotorB.setPower(0);
+
+                myTimer.setCompareTime(inchesToTime(18));
+                leftMotorF.setPower(-0.5);
+                leftMotorB.setPower(-0.5);
+                rightMotorF.setPower(0.5);
+                rightMotorB.setPower(0.5);
+                myTimer.start();
+
+                while (opModeIsActive()) {
+                    if (myTimer.timeChecker()) {
+                        break;
+                    }
+                }
+
+                leftMotorF.setPower(0);
+                leftMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                rightMotorB.setPower(0);
+
+                gyro.resetWithDirection(Gyro.RIGHT);
+
+                // start the motors turning right
+                leftMotorF.setPower(-0.2);
+                leftMotorB.setPower(-0.2);
+                rightMotorF.setPower(-0.2);
+                rightMotorB.setPower(-0.2);
+
+                // loop until the robot turns 25 degrees
+                while (opModeIsActive()) {
+                    if (gyro.getAngle() <= -45) {
+                        break;
+                    }
+                }
+
+                leftMotorF.setPower(0);
+                leftMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                rightMotorB.setPower(0);
+
+                leftMotorF.setPower(-0.25);
+                leftMotorB.setPower(-0.25);
+                rightMotorF.setPower(0.25);
+                rightMotorB.setPower(0.25);
+
+                while (sensorRange.getDistance(DistanceUnit.INCH) >= 5) {
+                }
+
+                leftMotorF.setPower(0);
+                leftMotorB.setPower(0);
+                rightMotorF.setPower(0);
+                rightMotorB.setPower(0);
+
+                BaseGyroSet = 85;
             }
         }
+        // end of looking for mineral
 
-        // TODO: add code for moving back here???
-    }
+    // disables the Mineral Identifier
     minid.disable();
 
     log("exiting.");
+        // drops the icon, if it doesn't work shakes off icon
+        iconServo.setPosition(2);
+        iconServo.setPosition(0);
+        iconServo.setPosition(2);
+        iconServo.setPosition(0);
 
-    iconServo.setPosition(2);
-    iconServo.setPosition(0);
-    iconServo.setPosition(2);
-    iconServo.setPosition(0);
+        leftMotorF.setPower(0.2);
+        leftMotorB.setPower(0.2);
+        rightMotorF.setPower(0.2);
+        rightMotorB.setPower(0.2);
+        //TODO is mr.andy correct? NO
+        gyro.resetWithDirection(Gyro.RIGHT);
+        // sets the angle to make the robot be equal to the base so we can back into crater
 
-        leftMotorF.setPower(-0.2);
-        leftMotorB.setPower(-0.2);
-        rightMotorF.setPower(-0.2);
-        rightMotorB.setPower(-0.2);
-
-        if (gyro.getAngle() == BaseGyroSet)
+        while (opModeIsActive()) {
+            if (gyro.getAngle() <= -BaseGyroSet) {
+                break;
+            }
+        }
 
         leftMotorF.setPower(0);
         leftMotorB.setPower(0);
@@ -341,8 +388,12 @@ public class MineeralBase extends LinearOpMode {
                 break;
             }
         }
-
-}
+        leftMotorF.setPower(0);
+        leftMotorB.setPower(0);
+        rightMotorF.setPower(0);
+        rightMotorB.setPower(0);
+        // in crater
+        }
 
     private void log(String message) {
         telemetry.addData("log", message);
