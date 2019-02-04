@@ -30,7 +30,10 @@ public class VisionTest extends LinearOpMode {
 
             if(results != null && results.size() == 1) {
                 Result item = results.get(0);
-
+                // screen height is 640
+                log("Length" + item.getFrameSize().getHeight());
+                // screen width 480
+                log("Width" + item.getFrameSize().getWidth());
                 // navigate to the item
             } else {
                 // look for the item

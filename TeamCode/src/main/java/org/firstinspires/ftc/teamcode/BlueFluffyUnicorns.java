@@ -16,8 +16,7 @@ import org.firstinspires.ftc.teamcode.vision.Result;
 import java.util.List;
 
 @Autonomous
-public class MineeralBase extends LinearOpMode {
-
+public class BlueFluffyUnicorns extends LinearOpMode {
     private DistanceSensor sensorRange;
     private Timer myTimer;
     private DcMotor leftMotorB;
@@ -154,7 +153,7 @@ public class MineeralBase extends LinearOpMode {
                 // double first = width / 3;
                 //  double second = first * 2;
                 double half = width / 2;
-                double lengthDivider = length / 2;
+                //double lengthDivider = length / 2;
 
                 if (item.getCenter().x < half) {
                     // CHECK: block is in front = go forward 18 inches
@@ -183,8 +182,12 @@ public class MineeralBase extends LinearOpMode {
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                    // TODO: while distance greater than 5
-                    while (sensorRange.getDistance(DistanceUnit.INCH) > 5) {
+                    myTimer.setCompareTime(inchesToTime(50));
+                    myTimer.start();
+                    while (opModeIsActive()) {
+                        if (myTimer.timeChecker()) {
+                            break;
+                        }
                     }
 
                     leftMotorF.setPower(0);
@@ -193,6 +196,7 @@ public class MineeralBase extends LinearOpMode {
                     rightMotorB.setPower(0);
 
                     BaseGyroSet = 15;
+                    break;
 
                 } else if (item.getCenter().x > half) {
                     //turn right
@@ -206,7 +210,7 @@ public class MineeralBase extends LinearOpMode {
 
                     // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() <= -45) {
+                        if (gyro.getAngle() <= -40) {
                             break;
                         }
                     }
@@ -241,7 +245,7 @@ public class MineeralBase extends LinearOpMode {
 
                     // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() >= 45) {
+                        if (gyro.getAngle() >= 35) {
                             break;
                         }
                     }
@@ -256,7 +260,12 @@ public class MineeralBase extends LinearOpMode {
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                    while (sensorRange.getDistance(DistanceUnit.INCH) >= 5) {
+                    myTimer.setCompareTime(inchesToTime(20));
+                    myTimer.start();
+                    while (opModeIsActive()) {
+                        if (myTimer.timeChecker()) {
+                            break;
+                        }
                     }
 
                     leftMotorF.setPower(0);
@@ -264,7 +273,39 @@ public class MineeralBase extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+                    gyro.resetWithDirection(Gyro.LEFT);
+
+                    leftMotorF.setPower(-0.25);
+                    leftMotorB.setPower(-0.25);
+                    rightMotorF.setPower(-0.25);
+                    rightMotorB.setPower(-0.25);
+
+                    while (opModeIsActive()) {
+                        if (gyro.getAngle() >= 17) {
+                            break;
+                        }
+                    }
+
+                    leftMotorF.setPower(-0.25);
+                    leftMotorB.setPower(-0.25);
+                    rightMotorF.setPower(0.25);
+                    rightMotorB.setPower(0.25);
+
+                   myTimer.setCompareTime(inchesToTime(20));
+                   myTimer.start();
+                   while (opModeIsActive()) {
+                       if (myTimer.timeChecker()) {
+                           break;
+                       }
+                   }
+
+                    leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
                     BaseGyroSet = 60;
+                    break;
                 }
                 // navigate to the item
             } else {
@@ -279,7 +320,7 @@ public class MineeralBase extends LinearOpMode {
 
                 // loop until the robot turns 25 degrees
                 while (opModeIsActive()) {
-                    if (gyro.getAngle() >= 45) {
+                    if (gyro.getAngle() >= 41) {
                         break;
                     }
                 }
@@ -317,7 +358,7 @@ public class MineeralBase extends LinearOpMode {
 
                 // loop until the robot turns 25 degrees
                 while (opModeIsActive()) {
-                    if (gyro.getAngle() <= -45) {
+                    if (gyro.getAngle() <= -35) {
                         break;
                     }
                 }
@@ -332,7 +373,20 @@ public class MineeralBase extends LinearOpMode {
                 rightMotorF.setPower(0.25);
                 rightMotorB.setPower(0.25);
 
-                while (sensorRange.getDistance(DistanceUnit.INCH) >= 5) {
+                myTimer.setCompareTime(inchesToTime(20));
+                myTimer.start();
+                while (opModeIsActive()) {
+                    if (myTimer.timeChecker()) {
+                        break;
+                    }
+                }
+
+                gyro.resetWithDirection(Gyro.LEFT);
+
+                while (opModeIsActive()) {
+                    if (gyro.getAngle() >= -17) {
+                        break;
+                    }
                 }
 
                 leftMotorF.setPower(0);
@@ -341,18 +395,19 @@ public class MineeralBase extends LinearOpMode {
                 rightMotorB.setPower(0);
 
                 BaseGyroSet = 85;
+                break;
             }
         }
         // end of looking for mineral
 
-    // disables the Mineral Identifier
-    minid.disable();
+        // disables the Mineral Identifier
+        minid.disable();
 
-    log("exiting.");
+        log("exiting.");
         // drops the icon, if it doesn't work shakes off icon
-        iconServo.setPosition(2);
+        iconServo.setPosition(1);
         iconServo.setPosition(0);
-        iconServo.setPosition(2);
+        iconServo.setPosition(1);
         iconServo.setPosition(0);
 
         leftMotorF.setPower(0.2);
@@ -380,22 +435,24 @@ public class MineeralBase extends LinearOpMode {
         rightMotorB.setPower(0.2);
 
         myTimer.setCompareTime(inchesToTime(160));
-        leftMotorF.setPower(-0.25);
-        leftMotorB.setPower(-0.25);
-        rightMotorF.setPower(0.25);
-        rightMotorB.setPower(0.25);
+        leftMotorF.setPower(0.25);
+        leftMotorB.setPower(0.25);
+        rightMotorF.setPower(-0.25);
+        rightMotorB.setPower(-0.25);
+
         myTimer.start();
         while (opModeIsActive()) {
             if (myTimer.timeChecker()){
                 break;
             }
         }
+
         leftMotorF.setPower(0);
         leftMotorB.setPower(0);
         rightMotorF.setPower(0);
         rightMotorB.setPower(0);
         // in crater
-        }
+    }
 
     private void log(String message) {
         telemetry.addData("log", message);

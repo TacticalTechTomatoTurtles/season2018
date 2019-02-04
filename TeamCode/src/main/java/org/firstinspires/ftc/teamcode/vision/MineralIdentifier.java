@@ -35,9 +35,12 @@ public class MineralIdentifier extends OpenCVPipeline {
         colorRange.setLower(2.33, 193.37, 96.66);
         colorRange.setUpper(24.89, 275.39, 247.92);
 
+        RectangleShape somethingMeaningful = new RectangleShape();
+        somethingMeaningful.setDims(0.0, 360.0, 480.0, 640.0);
+
         // Find objects in the frame that are the right color
         // area of interest can be changed to only see the bottom half. This will fix the issue with seeing extra blocks.
-        List<Result> results = improc.findRectangles(rgba, null, colorRange, 200);
+        List<Result> results = improc.findRectangles(rgba, somethingMeaningful, colorRange, 200);
         tracker.update(results);
         Result tracked = tracker.getTrackedItem();
 
