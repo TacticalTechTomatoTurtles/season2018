@@ -125,7 +125,8 @@ public class AndyIsMakingUsDoManualLabor extends LinearOpMode {
             telemetry.addData("Target Power Front Arm", tgtPowerArm);
             telemetry.addData("Target Power Rack Front", tgtPowerRack);
             telemetry.addData("Servo Right Front", tgtPowerSteve);
-            telemetry.addData("Arm Servo ", tgtPowerArmServo);
+            telemetry.addData("Arm Servo", tgtPowerArmServo);
+            telemetry.addData("Icon Drop Servo", tgtPowerIcon);
 
             //telemetry.addData("Servo Negative Right Front", tgtPowerNegSteve);
 

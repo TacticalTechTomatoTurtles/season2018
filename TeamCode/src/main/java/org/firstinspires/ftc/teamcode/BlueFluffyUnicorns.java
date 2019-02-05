@@ -405,10 +405,16 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
         log("exiting.");
         // drops the icon, if it doesn't work shakes off icon
-        iconServo.setPosition(1);
         iconServo.setPosition(0);
-        iconServo.setPosition(1);
-        iconServo.setPosition(0);
+        iconServo.setPosition(2);
+
+        myTimer.setCompareTime(5);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
 
         leftMotorF.setPower(0.2);
         leftMotorB.setPower(0.2);
