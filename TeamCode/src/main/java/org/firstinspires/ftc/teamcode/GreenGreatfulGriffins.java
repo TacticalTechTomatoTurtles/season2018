@@ -14,7 +14,7 @@ public class GreenGreatfulGriffins extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
+//                                                                                                                                      ChickFilA > Culvers
         // creating new representobot object from the representobot class
         Representobot bot = new Representobot(this);
 
@@ -56,7 +56,7 @@ public class GreenGreatfulGriffins extends LinearOpMode {
 
                 if (item.getCenter().x < half) {
                     // block is in front = go forward 18 inches
-                    bot.goForward(0.1, 20.0000001);
+                    bot.goForward(0.3, 25);
 
 
                 } else if (item.getCenter().x > half) {
@@ -64,7 +64,7 @@ public class GreenGreatfulGriffins extends LinearOpMode {
                     bot.turnRight(40, 0.2);
                     bot.goForward(0.3, 14);
                     bot.turnLeft(80, 0.2);
-                    bot.goForward(0.1, 15.99999999999999);
+                    bot.goForward(0.3, 25);
 
                 }
                 // navigate to the item
@@ -72,8 +72,8 @@ public class GreenGreatfulGriffins extends LinearOpMode {
                 // go left
                 bot.turnLeft(40, 0.2);
                 bot.goForward(0.3, 14);
-                bot.turnRight(80, 0.2);
-                bot.goForward(0.1, 15.999999999999999);
+                bot.turnRight(70, 0.2);
+                bot.goForward(0.3, 25);
             }
 
         log("exiting.");
