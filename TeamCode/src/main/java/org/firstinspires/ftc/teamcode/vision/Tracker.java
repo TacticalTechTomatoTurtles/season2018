@@ -6,6 +6,10 @@ import java.util.List;
 
 public class Tracker {
 
+    private static final int MAX_EMPTY_FRAMES = 5;
+
+    private int emptyCt = 0;
+
     private Result trackedItem;
 
     public void setTrackedItem(Result trackedItem) {
@@ -41,6 +45,14 @@ public class Tracker {
 
             if (best != null) {
                 trackedItem = best;
+                emptyCt = 0;
+            } else {
+                emptyCt++;
+            }
+
+            if(emptyCt > MAX_EMPTY_FRAMES){
+                trackedItem = null;
+                emptyCt = 0;
             }
         }
     }
@@ -56,6 +68,7 @@ public class Tracker {
                 bestScore = score;
             }
         }
+        emptyCt = 0;
 
         trackedItem = best;
     }

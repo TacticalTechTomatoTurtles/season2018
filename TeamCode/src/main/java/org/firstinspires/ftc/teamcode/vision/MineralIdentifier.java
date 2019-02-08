@@ -36,7 +36,7 @@ public class MineralIdentifier extends OpenCVPipeline {
         colorRange.setUpper(24.89, 275.39, 247.92);
 
         RectangleShape somethingMeaningful = new RectangleShape();
-        somethingMeaningful.setDims(140, 380.0, 480.0, 640.0);
+        somethingMeaningful.setDims(0, 380.0, 480.0, 640.0);
 
         // Find objects in the frame that are the right color
         // area of interest can be changed to only see the bottom half. This will fix the issue with seeing extra blocks.
