@@ -260,7 +260,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                    myTimer.setCompareTime(inchesToTime(20));
+                    myTimer.setCompareTime(inchesToTime(30));
                     myTimer.start();
                     while (opModeIsActive()) {
                         if (myTimer.timeChecker()) {
@@ -275,13 +275,13 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
                     gyro.resetWithDirection(Gyro.LEFT);
 
-                    leftMotorF.setPower(-0.25);
-                    leftMotorB.setPower(-0.25);
-                    rightMotorF.setPower(-0.25);
-                    rightMotorB.setPower(-0.25);
+                    leftMotorF.setPower(0.25);
+                    leftMotorB.setPower(0.25);
+                    rightMotorF.setPower(0.25);
+                    rightMotorB.setPower(0.25);
 
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() >= 17) {
+                        if (gyro.getAngle() >= 20) {
                             break;
                         }
                     }
@@ -291,7 +291,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                   myTimer.setCompareTime(inchesToTime(20));
+                   myTimer.setCompareTime(inchesToTime(80));
                    myTimer.start();
                    while (opModeIsActive()) {
                        if (myTimer.timeChecker()) {
@@ -383,8 +383,13 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
                 gyro.resetWithDirection(Gyro.LEFT);
 
+                leftMotorF.setPower(0.2);
+                leftMotorB.setPower(0.2);
+                rightMotorF.setPower(0.2);
+                rightMotorB.setPower(0.2);
+
                 while (opModeIsActive()) {
-                    if (gyro.getAngle() >= -17) {
+                    if (gyro.getAngle() <= 17) {
                         break;
                     }
                 }
@@ -405,16 +410,41 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
         log("exiting.");
         // drops the icon, if it doesn't work shakes off icon
+
         iconServo.setPosition(0);
         iconServo.setPosition(2);
 
-        myTimer.setCompareTime(5);
+        myTimer.setCompareTime(2);
         myTimer.start();
         while (opModeIsActive()) {
             if (myTimer.timeChecker()) {
                 break;
             }
         }
+
+        iconServo.setPosition(0);
+        iconServo.setPosition(2);
+
+        myTimer.setCompareTime(2);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
+
+        iconServo.setPosition(0);
+        iconServo.setPosition(2);
+
+        myTimer.setCompareTime(2);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
+
+        iconServo.setPosition(0);
 
         leftMotorF.setPower(0.2);
         leftMotorB.setPower(0.2);
@@ -425,7 +455,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         // sets the angle to make the robot be equal to the base so we can back into crater
 
         while (opModeIsActive()) {
-            if (gyro.getAngle() <= -BaseGyroSet) {
+            if (gyro.getAngle() >= BaseGyroSet) {
                 break;
             }
         }

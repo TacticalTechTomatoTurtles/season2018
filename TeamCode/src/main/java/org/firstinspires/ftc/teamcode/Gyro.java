@@ -94,8 +94,8 @@ public class Gyro {
         lastAngle = angles.firstAngle;
 
         // send the current overall angle to the phone
-        opMode.telemetry.addData("Gyro angle:", adjusted);
-        opMode.telemetry.update();
+        //opMode.telemetry.addData("Gyro angle:", adjusted);
+        //opMode.telemetry.update();
 
         // return the current overall angle
         return (int) adjusted;
@@ -128,7 +128,7 @@ public class Gyro {
         }
 
         // send a message to the phone about the calibration status
-        opMode.telemetry.addData("Gyro Status", gyro.getCalibrationStatus().toString());
-        opMode.telemetry.update();
+        //opMode.telemetry.addData("Gyro Status", gyro.getCalibrationStatus().toString());
+        //opMode.telemetry.update();
     }
 }

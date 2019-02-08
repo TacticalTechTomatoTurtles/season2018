@@ -63,7 +63,9 @@ public class BlueFluffyUnicornsRepresentobot extends LinearOpMode {
                     bot.turnRight(40, 0.3);
                     bot.goForward(0.3, 14);
                     bot.turnLeft(80, 0.3);
-                    bot.forwardToWall(10, 0.3);
+                    bot.goForward(0.3, 7);
+                    bot.turnLeft(20, 0.25);
+                    bot.goForward(0.3,15);
                     //bot.goForward(0.3, 16);
                     //bot.turnLeft(35, 0.3);
                     //bot.goForward(0.3, 5);
@@ -80,12 +82,12 @@ public class BlueFluffyUnicornsRepresentobot extends LinearOpMode {
                 bot.goForward(0.25, 5);
                 bot.turnLeft(17, 0.2);
             }
-
-
-
-        log("exiting.");
+            minid.disable();
+            log("exiting.");
         // drops the icon, if it doesn't work shakes off icon
         bot.dropIcon();
+
+
 
     }
 

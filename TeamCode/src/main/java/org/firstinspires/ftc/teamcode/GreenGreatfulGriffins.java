@@ -14,7 +14,7 @@ public class GreenGreatfulGriffins extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-//                                                                                                                                      ChickFilA > Culvers
+//                                                                                                                                      ChickFilA < Culvers
         // creating new representobot object from the representobot class
         Representobot bot = new Representobot(this);
 
@@ -41,14 +41,14 @@ public class GreenGreatfulGriffins extends LinearOpMode {
         log("results: " + (results == null ? "null" : results.size()));
 
         // turn off the vision sensor
-        minid.disable();
+
 
 
             // see if we got a hit from the vision system
             if (results != null && results.size() == 1) {
                 Result item = results.get(0);
-                double width = item.getFrameSize().getWidth();
-                double length = item.getFrameSize().getHeight();
+                log(item.getCenter().x + "x value" + item.getCenter().y + "y value");
+                double width = 480;
                 // double first = width / 3;
                 //  double second = first * 2;
                 double half = width / 2;
@@ -75,7 +75,7 @@ public class GreenGreatfulGriffins extends LinearOpMode {
                 bot.turnRight(70, 0.2);
                 bot.goForward(0.3, 25);
             }
-
+        minid.disable();
         log("exiting.");
 
 
