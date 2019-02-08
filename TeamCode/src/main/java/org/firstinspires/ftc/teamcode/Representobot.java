@@ -192,7 +192,7 @@ public class Representobot {
     }
 
     public long inchesToTime(double inches, double power) {
-        return (long) (0.0384 * inches * 0.5 / power);
+        return (long) (0.0384 * inches * 500.0 / power);
     }
 
 }

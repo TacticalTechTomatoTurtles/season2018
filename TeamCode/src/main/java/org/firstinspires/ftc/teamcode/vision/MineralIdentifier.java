@@ -32,8 +32,10 @@ public class MineralIdentifier extends OpenCVPipeline {
 
         // Set the HSV color range we want to look for
         ColorRange colorRange = new ColorRange();
-        colorRange.setLower(2.33, 193.37, 96.66);
-        colorRange.setUpper(24.89, 275.39, 247.92);
+        //colorRange.setLower(2.33, 193.37, 96.66);
+        //colorRange.setUpper(24.89, 275.39, 247.92);
+        colorRange.setLower(2.33, 193.37, 137);
+        colorRange.setUpper(24.89, 275.39, 329);
 
         RectangleShape somethingMeaningful = new RectangleShape();
         somethingMeaningful.setDims(0, 380.0, 480.0, 640.0);

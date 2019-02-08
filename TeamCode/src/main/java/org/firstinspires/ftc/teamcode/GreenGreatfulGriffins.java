@@ -52,29 +52,30 @@ public class GreenGreatfulGriffins extends LinearOpMode {
         log("x value " + centerx);
 
         // turn off the vision sensor
-        minid.disable();
+
 
         double width = 480;
         double half = width / 2;
-        double excludeLeft = 120;
+        double excludeLeft = 80;
 
         // see if we got a hit from the vision system
         if (blockFound && centerx < half && centerx > excludeLeft) {
             // block is in front = go forward 18 inches
-            bot.goForward(0.3, 25);
+            bot.goForward(0.3, 50);
         } else if (blockFound && centerx > half) {
             //turn right
             bot.turnRight(40, 0.2);
-            bot.goForward(0.3, 14);
+            bot.goForward(0.3, 28);
             bot.turnLeft(80, 0.2);
-            bot.goForward(0.3, 25);
+            bot.goForward(0.3, 50);
         } else {
             // go left
             bot.turnLeft(40, 0.2);
-            bot.goForward(0.3, 14);
+            bot.goForward(0.3, 28);
             bot.turnRight(70, 0.2);
-            bot.goForward(0.3, 25);
+            bot.goForward(0.3, 50);
         }
+        minid.disable();
 
     }
 

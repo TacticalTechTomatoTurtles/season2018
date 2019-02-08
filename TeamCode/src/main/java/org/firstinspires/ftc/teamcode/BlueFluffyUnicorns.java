@@ -40,13 +40,13 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         armMotorF = hardwareMap.get(DcMotor.class, "motor4");
         rackMotorF = hardwareMap.get(DcMotor.class, "motorX");
         rightServoF = hardwareMap.get(Servo.class, "steve");
-        leftServoF = hardwareMap.get(Servo.class, "iconDropServo");
+        //leftServoF = hardwareMap.get(Servo.class, "iconDropServo");
         Tanner = hardwareMap.get(TouchSensor.class, "touchSensor");
         BNO055IMU imu = hardwareMap.get(BNO055IMU.class, "imu");
         MineralIdentifier minid = new MineralIdentifier();
         Gyro gyro = new Gyro(imu, this);
         myTimer = new Timer();
-        iconServo = hardwareMap.get(Servo.class, "alex");
+        iconServo = hardwareMap.get(Servo.class, "iconDropServo");
         sensorRange = hardwareMap.get(DistanceSensor.class, "sensor_range");
 
         //stops movement of robot quickly.
@@ -86,10 +86,10 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         gyro.resetWithDirection(Gyro.LEFT);
 
         // start the motors turning left
-        leftMotorF.setPower(0.5);
-        leftMotorB.setPower(0.5);
-        rightMotorF.setPower(0.5);
-        rightMotorB.setPower(0.5);
+        leftMotorF.setPower(0.3);
+        leftMotorB.setPower(0.3);
+        rightMotorF.setPower(0.3);
+        rightMotorB.setPower(0.3);
 
         // loop until the robot turns 25 degrees
         while (opModeIsActive()) {
@@ -128,7 +128,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
         // loop until the robot turns 25 degrees
         while (opModeIsActive()) {
-            if (gyro.getAngle() <= -25) {
+            if (gyro.getAngle() <= -35) {
                 break;
             }
         }
@@ -156,7 +156,31 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                 //double lengthDivider = length / 2;
 
                 if (item.getCenter().x < half) {
-                    // CHECK: block is in front = go forward 18 inches
+                    //  block is in front = go forward 18 inches
+
+
+                    // tell the gyro we are turning left and reset the measured angle to 0
+                    gyro.resetWithDirection(Gyro.LEFT);
+
+                    // start the motors turning left
+                    leftMotorF.setPower(0.3);
+                    leftMotorB.setPower(0.3);
+                    rightMotorF.setPower(0.3);
+                    rightMotorB.setPower(0.3);
+
+                    // loop until the robot turns 25 degrees
+                    while (opModeIsActive()) {
+                        if (gyro.getAngle() >= 10) {
+                            break;
+                        }
+                    }
+
+                    // turn off the motors after the turn
+                    leftMotorF.setPower(0);
+                    leftMotorB.setPower(0);
+                    rightMotorF.setPower(0);
+                    rightMotorB.setPower(0);
+
                     leftMotorF.setPower(-0.5);
                     leftMotorB.setPower(-0.5);
                     rightMotorF.setPower(0.5);
@@ -165,7 +189,6 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     myTimer.setCompareTime(inchesToTime(18));
                     myTimer.start();
                     while (opModeIsActive()) {
-                        // TODO: need brackets for the if and a break statement
                         if (myTimer.timeChecker()) {
                             break;
                         }
@@ -176,13 +199,13 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
-                    // CHECK: go forward until 5 inches from wall
+                    // CHECK: go forward
                     leftMotorF.setPower(-0.25);
                     leftMotorB.setPower(-0.25);
                     rightMotorF.setPower(0.25);
                     rightMotorB.setPower(0.25);
 
-                    myTimer.setCompareTime(inchesToTime(50));
+                    myTimer.setCompareTime(inchesToTime(80));
                     myTimer.start();
                     while (opModeIsActive()) {
                         if (myTimer.timeChecker()) {
@@ -195,7 +218,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
-                    BaseGyroSet = 15;
+                    BaseGyroSet = 30;
                     break;
 
                 } else if (item.getCenter().x > half) {
@@ -208,14 +231,12 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(-0.2);
                     rightMotorB.setPower(-0.2);
 
-                    // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
-                        if (gyro.getAngle() <= -40) {
+                        if (gyro.getAngle() <= -30) {
                             break;
                         }
                     }
 
-                    // start the motors turning right
                     // CHECK: go forward?
                     myTimer.setCompareTime(inchesToTime(18));
                     leftMotorF.setPower(-0.5);
@@ -235,15 +256,14 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+                    // start the motors turning left
                     gyro.resetWithDirection(Gyro.LEFT);
 
-                    // start the motors turning right
                     leftMotorF.setPower(0.2);
                     leftMotorB.setPower(0.2);
                     rightMotorF.setPower(0.2);
                     rightMotorB.setPower(0.2);
 
-                    // loop until the robot turns 25 degrees
                     while (opModeIsActive()) {
                         if (gyro.getAngle() >= 35) {
                             break;
@@ -255,6 +275,8 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+
+                    // go forward
                     leftMotorF.setPower(-0.25);
                     leftMotorB.setPower(-0.25);
                     rightMotorF.setPower(0.25);
@@ -273,6 +295,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
+                    // turn left
                     gyro.resetWithDirection(Gyro.LEFT);
 
                     leftMotorF.setPower(0.25);
@@ -286,6 +309,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                         }
                     }
 
+                    // go forward
                     leftMotorF.setPower(-0.25);
                     leftMotorB.setPower(-0.25);
                     rightMotorF.setPower(0.25);
@@ -304,7 +328,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     rightMotorF.setPower(0);
                     rightMotorB.setPower(0);
 
-                    BaseGyroSet = 60;
+                    BaseGyroSet = 65;
                     break;
                 }
                 // navigate to the item
@@ -312,7 +336,6 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                 // go left
                 gyro.resetWithDirection(Gyro.LEFT);
 
-                // start the motors turning right
                 leftMotorF.setPower(0.2);
                 leftMotorB.setPower(0.2);
                 rightMotorF.setPower(0.2);
@@ -320,7 +343,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
 
                 // loop until the robot turns 25 degrees
                 while (opModeIsActive()) {
-                    if (gyro.getAngle() >= 41) {
+                    if (gyro.getAngle() >= 51) {
                         break;
                     }
                 }
@@ -330,6 +353,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                 rightMotorF.setPower(0);
                 rightMotorB.setPower(0);
 
+                // go forward
                 myTimer.setCompareTime(inchesToTime(18));
                 leftMotorF.setPower(-0.5);
                 leftMotorB.setPower(-0.5);
@@ -348,15 +372,14 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                 rightMotorF.setPower(0);
                 rightMotorB.setPower(0);
 
+                // start the motors turning right
                 gyro.resetWithDirection(Gyro.RIGHT);
 
-                // start the motors turning right
                 leftMotorF.setPower(-0.2);
                 leftMotorB.setPower(-0.2);
                 rightMotorF.setPower(-0.2);
                 rightMotorB.setPower(-0.2);
 
-                // loop until the robot turns 25 degrees
                 while (opModeIsActive()) {
                     if (gyro.getAngle() <= -35) {
                         break;
@@ -368,12 +391,13 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                 rightMotorF.setPower(0);
                 rightMotorB.setPower(0);
 
+                // go forward
                 leftMotorF.setPower(-0.25);
                 leftMotorB.setPower(-0.25);
                 rightMotorF.setPower(0.25);
                 rightMotorB.setPower(0.25);
 
-                myTimer.setCompareTime(inchesToTime(20));
+                myTimer.setCompareTime(inchesToTime(30));
                 myTimer.start();
                 while (opModeIsActive()) {
                     if (myTimer.timeChecker()) {
@@ -381,15 +405,30 @@ public class BlueFluffyUnicorns extends LinearOpMode {
                     }
                 }
 
-                gyro.resetWithDirection(Gyro.LEFT);
+                // turn right
+                gyro.resetWithDirection(Gyro.RIGHT);
 
-                leftMotorF.setPower(0.2);
-                leftMotorB.setPower(0.2);
-                rightMotorF.setPower(0.2);
-                rightMotorB.setPower(0.2);
+                leftMotorF.setPower(-0.2);
+                leftMotorB.setPower(-0.2);
+                rightMotorF.setPower(-0.2);
+                rightMotorB.setPower(-0.2);
 
                 while (opModeIsActive()) {
-                    if (gyro.getAngle() <= 17) {
+                    if (gyro.getAngle() <= -20) {
+                        break;
+                    }
+                }
+
+                // go forward
+                leftMotorF.setPower(-0.25);
+                leftMotorB.setPower(-0.25);
+                rightMotorF.setPower(0.25);
+                rightMotorB.setPower(0.25);
+
+                myTimer.setCompareTime(inchesToTime(80));
+                myTimer.start();
+                while (opModeIsActive()) {
+                    if (myTimer.timeChecker()) {
                         break;
                     }
                 }
@@ -411,10 +450,32 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         log("exiting.");
         // drops the icon, if it doesn't work shakes off icon
 
+
+
+        myTimer.setCompareTime(200);
         iconServo.setPosition(0);
         iconServo.setPosition(2);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+               break;
+            }
+        }
 
-        myTimer.setCompareTime(2);
+
+        myTimer.setCompareTime(200);
+        iconServo.setPosition(0);
+        iconServo.setPosition(2);
+        myTimer.start();
+        while (opModeIsActive()) {
+            if (myTimer.timeChecker()) {
+                break;
+            }
+        }
+
+        myTimer.setCompareTime(200);
+        iconServo.setPosition(0);
+        iconServo.setPosition(2);
         myTimer.start();
         while (opModeIsActive()) {
             if (myTimer.timeChecker()) {
@@ -423,28 +484,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         }
 
         iconServo.setPosition(0);
-        iconServo.setPosition(2);
-
-        myTimer.setCompareTime(2);
-        myTimer.start();
-        while (opModeIsActive()) {
-            if (myTimer.timeChecker()) {
-                break;
-            }
-        }
-
-        iconServo.setPosition(0);
-        iconServo.setPosition(2);
-
-        myTimer.setCompareTime(2);
-        myTimer.start();
-        while (opModeIsActive()) {
-            if (myTimer.timeChecker()) {
-                break;
-            }
-        }
-
-        iconServo.setPosition(0);
+        // After icon drop
 
         leftMotorF.setPower(0.2);
         leftMotorB.setPower(0.2);
@@ -488,6 +528,7 @@ public class BlueFluffyUnicorns extends LinearOpMode {
         rightMotorF.setPower(0);
         rightMotorB.setPower(0);
         // in crater
+
     }
 
     private void log(String message) {
